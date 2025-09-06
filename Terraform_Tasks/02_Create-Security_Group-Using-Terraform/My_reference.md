@@ -1,7 +1,7 @@
 The security group Terraform code you provided is almost correct. However, there's a small mistake in the protocol field for the HTTP ingress rule. The protocol should be "tcp" instead of "HTTP". Similarly, for the SSH ingress rule, the protocol should be "tcp" instead of "SSH" (although "tcp" is implied when specifying the port, it's more explicit).
 
 Here's the corrected code:
-
+```
 terraform
 provider "aws" {
   region = "us-east-1"
@@ -36,7 +36,7 @@ resource "aws_security_group" "ec2_sg" {
     Name = "devops-sg"
   }
 }
-
+```
 Note that I also corrected the Name tag to simply "devops-sg" to match the security group name. The original code had a trailing hyphen, which might not be intended.
 
 This code should create a security group named "devops-sg" in the default VPC of the us-east-1 region, with the specified ingress and egress rules. Make sure to run terraform init and terraform apply in the /home/bob/terraform directory to create the security group.
@@ -93,7 +93,7 @@ The protocol and port numbers are used to determine the type of traffic allowed,
 - Port 22 with protocol "tcp" implies SSH traffic.
 
 You don't need to explicitly specify "HTTP" or "SSH" in the Terraform configuration. The configuration you provided earlier:
-
+```
 terraform
 ingress {
   from_port   = 80
@@ -108,7 +108,7 @@ ingress {
   protocol    = "tcp"
   cidr_blocks = ["0.0.0.0/0"]
 }
-
+```
 is enough to allow HTTP and SSH traffic, respectively.
 
 
