@@ -138,12 +138,12 @@ EXPOSE 5003
 CMD ["python", "server.py"]
 ```
 
+```
 [root@stapp01 python_app]# history | cut -c 8-
 ls
 pwd
 cd /python_app/src/
 ls
-cat requirements.txt 
 cat requirements.txt 
 vi requirements.txt 
 cat server.py 
@@ -157,6 +157,4 @@ docker run -d --name pythonapp_nautilus -p 8093:5003 nautilus/python-app
 docker ps -a
 curl http://localhost:8093/
 curl http://localhost:8093/
-History | cut -c 8-
-history | cut -c 8-
-[root@stapp01 python_app]# 
+```
