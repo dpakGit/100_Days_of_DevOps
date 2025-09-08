@@ -21,7 +21,8 @@ kubectl create deployment httpd --image=httpd:latest
     *   `kubectl create deployment`: This command creates a new deployment in the Kubernetes cluster.
     *   `httpd`: This is the name of the deployment.
     *   `--image=httpd:latest`: This option specifies the Docker image to use for the deployment. In this case, it's the `httpd` image with the `latest` tag.
-     `**What the command does:**
+
+*What the command does:**
 
 *   The `kubectl create deployment` command creates a new deployment in the Kubernetes cluster.
 *   The deployment is named "httpd" and uses the `httpd:latest` image.
