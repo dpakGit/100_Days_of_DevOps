@@ -1,3 +1,4 @@
+
 Here's a step-by-step guide to creating a deployment named "httpd" using the httpd:latest image:
 
 Task: Create a Kubernetes deployment named "httpd" that uses the httpd:latest image.
