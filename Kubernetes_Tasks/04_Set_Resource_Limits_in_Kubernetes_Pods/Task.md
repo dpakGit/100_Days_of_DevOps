@@ -14,109 +14,29 @@ Note: The kubectl utility on jump_host is configured to operate with the Kuberne
 
 
 ### What I Did
-
-thor@jumphost ~$ kubectl
-kubectl controls the Kubernetes cluster manager.
-
- Find more information at: https://kubernetes.io/docs/reference/kubectl/
-
-Basic Commands (Beginner):
-  create          Create a resource from a file or from stdin
-  expose          Take a replication controller, service, deployment or pod and expose it as a new Kubernetes service
-  run             Run a particular image on the cluster
-  set             Set specific features on objects
-
-Basic Commands (Intermediate):
-  explain         Get documentation for a resource
-  get             Display one or many resources
-  edit            Edit a resource on the server
-  delete          Delete resources by file names, stdin, resources and names, or by resources and label selector
-
-Deploy Commands:
-  rollout         Manage the rollout of a resource
-  scale           Set a new size for a deployment, replica set, or replication controller
-  autoscale       Auto-scale a deployment, replica set, stateful set, or replication controller
-
-Cluster Management Commands:
-  certificate     Modify certificate resources
-  cluster-info    Display cluster information
-  top             Display resource (CPU/memory) usage
-  cordon          Mark node as unschedulable
-  uncordon        Mark node as schedulable
-  drain           Drain node in preparation for maintenance
-  taint           Update the taints on one or more nodes
-
-Troubleshooting and Debugging Commands:
-  describe        Show details of a specific resource or group of resources
-  logs            Print the logs for a container in a pod
-  attach          Attach to a running container
-  exec            Execute a command in a container
-  port-forward    Forward one or more local ports to a pod
-  proxy           Run a proxy to the Kubernetes API server
-  cp              Copy files and directories to and from containers
-  auth            Inspect authorization
-  debug           Create debugging sessions for troubleshooting workloads and nodes
-  events          List events
-
-Advanced Commands:
-  diff            Diff the live version against a would-be applied version
-  apply           Apply a configuration to a resource by file name or stdin
-  patch           Update fields of a resource
-  replace         Replace a resource by file name or stdin
-  wait            Experimental: Wait for a specific condition on one or many resources
-  kustomize       Build a kustomization target from a directory or URL
-
-Settings Commands:
-  label           Update the labels on a resource
-  annotate        Update the annotations on a resource
-  completion      Output shell completion code for the specified shell (bash, zsh, fish, or powershell)
-
-Subcommands provided by plugins:
-
-Other Commands:
-  api-resources   Print the supported API resources on the server
-  api-versions    Print the supported API versions on the server, in the form of "group/version"
-  config          Modify kubeconfig files
-  plugin          Provides utilities for interacting with plugins
-  version         Print the client and server version information
-
-Usage:
-  kubectl [flags] [options]
-
-Use "kubectl <command> --help" for more information about a given command.
-Use "kubectl options" for a list of global command-line options (applies to all commands).
+```
 thor@jumphost ~$ kubectl get all
 NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
 service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   5m47s
+
 thor@jumphost ~$ kubectl get pods
 No resources found in default namespace.
+
 thor@jumphost ~$ vi httpd-pod.yaml
+
 thor@jumphost ~$ kubectl apply -f httpd-pod.yaml
 pod/httpd-pod created
+
 thor@jumphost ~$ kubectl get po
 NAME        READY   STATUS    RESTARTS   AGE
 httpd-pod   1/1     Running   0          10s
+
 thor@jumphost ~$ kubectl get pod httpd-pod
 NAME        READY   STATUS    RESTARTS   AGE
 httpd-pod   1/1     Running   0          26s
-thor@jumphost ~$ cat httpd-pod.yaml 
-apiVersion: v1
-kind: Pod
-metadata:
-  name: httpd-pod
-spec:
-  containers:
-  - name: httpd-container
-    image: httpd:latest
-    resources:
-      requests:
-        memory: 15Mi
-        cpu: 100m
-      limits:
-        memory: 20Mi
-        cpu: 100m
 
-thor@jumphost ~$ kubectl describe pod httpd-pod
+
+thor@jumphost ~$ kubectl describe pod httpd-pod # In the output under limits check
 Name:             httpd-pod
 Namespace:        default
 Priority:         0
@@ -174,10 +94,28 @@ Events:
   Normal  Pulled     3m37s  kubelet            Successfully pulled image "httpd:latest" in 4.966597124s (4.966620415s including waiting)
   Normal  Created    3m37s  kubelet            Created container httpd-container
   Normal  Started    3m36s  kubelet            Started container httpd-container
-thor@jumphost ~$ kubectl top pods
-error: Metrics API not available
-thor@jumphost ~$ kubectl get deployment metrics-server -n kube-system
-Error from server (NotFound): deployments.apps "metrics-server" not found
+```
+### # httpd-pod.yaml 
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: httpd-pod
+spec:
+  containers:
+  - name: httpd-container
+    image: httpd:latest
+    resources:
+      requests:
+        memory: 15Mi
+        cpu: 100m
+      limits:
+        memory: 20Mi
+        cpu: 100m
+```
+
+```
 thor@jumphost ~$ history | cut -c 8-
 kubectl
 kubectl get all
@@ -191,4 +129,18 @@ kubectl describe pod httpd-pod
 kubectl top pods
 kubectl get deployment metrics-server -n kube-system
 history | cut -c 8-
-thor@jumphost ~$ 
+thor@jumphost ~$
+```
+
+## If you prefer to create the pod directly using kubectl run, you can use the following command:
+
+
+```
+kubectl run httpd-pod --image=httpd:latest --requests='cpu=100m,memory=15Mi' --limits='cpu=100m,memory=20Mi'
+```
+
+- Note: When using kubectl run, the container name is automatically set to the same name as the pod. In this case, the container name would be httpd-pod.
+
+If you want to specify a different container name, you can't do it directly with kubectl run. Instead, you'll need to create a YAML configuration file that defines the pod and container.
+
+- If you still want to use kubectl run, you can stick with the default container name (httpd-pod).
