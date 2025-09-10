@@ -18,7 +18,7 @@ Ensure all pods are operational post-update.
 # Step 1: Verify the Current Deployment with the following commands:
 # Note : to perform the rolling update we need the deployment name and the container name, as this things are needed in the rolling update command. 
 
--> thor@jumphost ~$ kubectl get all
+thor@jumphost ~$ kubectl get all
 NAME                                   READY   STATUS    RESTARTS   AGE
 pod/nginx-deployment-989f57c54-btxrt   1/1     Running   0          27m
 pod/nginx-deployment-989f57c54-fkwqf   1/1     Running   0          27m
@@ -35,14 +35,12 @@ NAME                                         DESIRED   CURRENT   READY   AGE
 replicaset.apps/nginx-deployment-989f57c54   3         3         3       27m
 
 thor@jumphost ~$ kubectl get deploy nginx-deployment
-
 NAME               READY   UP-TO-DATE   AVAILABLE   AGE
 nginx-deployment   3/3     3            3           28m
 
 # The following commands output will give the deplyment name, container name and the current image on which the deployment is created.
 
 thor@jumphost ~$ kubectl get deploy nginx-deployment -o wide 
-
 NAME               READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS        IMAGES       SELECTOR
 nginx-deployment   3/3        3            3        28m   nginx-container   nginx:1.16   app=nginx-app
 
