@@ -19,7 +19,7 @@ The Terraform working directory is /home/bob/terraform. Create the main.tf file 
 
 ### What I Did
 
-
+```
 bob@iac-server ~/terraform via 💠 default ➜  pwd
 /home/bob/terraform
 
@@ -33,43 +33,7 @@ main.tf
 provider.tf
 
 bob@iac-server ~/terraform via 💠 default ➜  terraform init
-Initializing the backend...
-Initializing provider plugins...
-- Finding hashicorp/aws versions matching "5.91.0"...
-- Installing hashicorp/aws v5.91.0...
-- Installed hashicorp/aws v5.91.0 (signed by HashiCorp)
-Terraform has created a lock file .terraform.lock.hcl to record the provider
-selections it made above. Include this file in your version control repository
-so that Terraform can guarantee to make the same selections by default when
-you run "terraform init" in the future.
 
-Terraform has been successfully initialized!
-
-You may now begin working with Terraform. Try running "terraform plan" to see
-any changes that are required for your infrastructure. All Terraform commands
-should now work.
-
-If you ever set or change modules or backend configuration for Terraform,
-rerun this command to reinitialize your working directory. If you forget, other
-commands will detect it and remind you to do so if necessary.
-
-bob@iac-server ~/terraform via 💠 default ➜  terraform validate
-╷
-│ Error: Invalid function argument
-│ 
-│   on main.tf line 3, in resource "aws_key_pair" "nautilus_kp":
-│    3:   public_key = file("~/.ssh/id_rsa.pub") # Use an existing public key or generate a new one
-│     ├────────────────
-│     │ while calling file(path)
-│ 
-│ Invalid value for "path" parameter: no file exists at
-│ "~/.ssh/id_rsa.pub"; this function works only with
-│ files that are distributed as part of the
-│ configuration source code, so if this file will be
-│ created by a resource in this configuration you must
-│ instead obtain this result from an attribute of that
-│ resource.
-╵
 
 bob@iac-server ~/terraform via 💠 default ✖ vi main.tf
 
@@ -117,6 +81,8 @@ README.MD  main.tf  provider.tf
 bob@iac-server ~/terraform via 💠 default ➜  terraform init
 
 # Note: Once you make some changes to the main.tf file after the terraform init command the again run the init command
+
+
 bob@iac-server ~/terraform via 💠 default ➜  terraform validate
 Success! The configuration is valid.
 
@@ -279,7 +245,7 @@ README.MD  main.tf  nautilus-kp.pem  provider.tf  terraform.tfstate
 # Above files nautilus-kp.pem and terraform.tfstate are cfreated after the apply command
 
 bob@iac-server ~/terraform via 💠 default ➜  cat main.tf 
-
+```
 ### # main.tf
 
 ```
@@ -343,6 +309,66 @@ history | cut -c 8-
 
 
 ```
+### Troubleshoot
 
 
-bob@iac-server ~/terraform via 💠 default ➜  
+bob@iac-server ~/terraform via 💠 default ➜  terraform validate
+╷
+│ Error: Invalid function argument
+│ 
+│   on main.tf line 3, in resource "aws_key_pair" "nautilus_kp":
+│    3:   public_key = file("~/.ssh/id_rsa.pub") # Use an existing public key or generate a new one
+│     ├────────────────
+│     │ while calling file(path)
+│ 
+│ Invalid value for "path" parameter: no file exists at
+│ "~/.ssh/id_rsa.pub"; this function works only with
+│ files that are distributed as part of the
+│ configuration source code, so if this file will be
+│ created by a resource in this configuration you must
+│ instead obtain this result from an attribute of that
+│ resource.
+╵
+
+
+Solution:
+
+The error message indicates that Terraform is missing the required providers local and tls. To fix this, you can run terraform init, which will initialize the Terraform working directory and install the necessary providers.
+
+Run the following command:
+
+
+bash
+terraform init
+
+
+After running terraform init, you should be able to validate your Terraform configuration using:
+
+
+bash
+terraform validate
+
+
+If you want to specify the required providers explicitly, you can add the following code to your provider.tf file:
+
+
+terraform
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0"
+    }
+    tls = {
+      source  = "hashicorp/tls"
+      version = ">= 3.0"
+    }
+    local = {
+      source  = "hashicorp/local"
+      version = ">= 2.0"
+    }
+  }
+}
+
+
+Then, run terraform init to install the providers.
