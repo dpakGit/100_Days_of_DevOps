@@ -1,121 +1,5 @@
 thor@jumphost ~$ kubectl get all
 NAME                                   READY   STATUS    RESTARTS   AGE
-pod/nginx-deployment-989f57c54-btxrt   1/1     Running   0          3m36s
-pod/nginx-deployment-989f57c54-fkwqf   1/1     Running   0          3m36s
-pod/nginx-deployment-989f57c54-g6qnx   1/1     Running   0          3m36s
-
-NAME                    TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE
-service/kubernetes      ClusterIP   10.96.0.1      <none>        443/TCP        20m
-service/nginx-service   NodePort    10.96.71.229   <none>        80:30008/TCP   3m36s
-
-NAME                               READY   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/nginx-deployment   3/3     3            3           3m36s
-
-NAME                                         DESIRED   CURRENT   READY   AGE
-replicaset.apps/nginx-deployment-989f57c54   3         3         3       3m36s
-thor@jumphost ~$ kubectl describe deployment  nginx-deployment
-Name:                   nginx-deployment
-Namespace:              default
-CreationTimestamp:      Wed, 10 Sep 2025 04:02:05 +0000
-Labels:                 app=nginx-app
-                        type=front-end
-Annotations:            deployment.kubernetes.io/revision: 1
-Selector:               app=nginx-app
-Replicas:               3 desired | 3 updated | 3 total | 3 available | 0 unavailable
-StrategyType:           RollingUpdate
-MinReadySeconds:        0
-RollingUpdateStrategy:  25% max unavailable, 25% max surge
-Pod Template:
-  Labels:  app=nginx-app
-  Containers:
-   nginx-container:
-    Image:         nginx:1.16
-    Port:          <none>
-    Host Port:     <none>
-    Environment:   <none>
-    Mounts:        <none>
-  Volumes:         <none>
-  Node-Selectors:  <none>
-  Tolerations:     <none>
-Conditions:
-  Type           Status  Reason
-  ----           ------  ------
-  Available      True    MinimumReplicasAvailable
-  Progressing    True    NewReplicaSetAvailable
-OldReplicaSets:  <none>
-NewReplicaSet:   nginx-deployment-989f57c54 (3/3 replicas created)
-Events:
-  Type    Reason             Age    From                   Message
-  ----    ------             ----   ----                   -------
-  Normal  ScalingReplicaSet  7m17s  deployment-controller  Scaled up replica set nginx-deployment-989f57c54 to 3
-thor@jumphost ~$ kubectl get deployment <deployment-name> -o jsonpath='{.spec.template.spec.containers[0].image}'
-bash: deployment-name: No such file or directory
-thor@jumphost ~$ kubectl get deployment nginx-deployment -o jsonpath='{.spec.template.spec.containers[0].image}'
-nginx:1.16thor@jukubectl describe deployment  nginx-deployment           Name:                   nginx-deployment
-Namespace:              default
-CreationTimestamp:      Wed, 10 Sep 2025 04:02:05 +0000
-Labels:                 app=nginx-app
-                        type=front-end
-Annotations:            deployment.kubernetes.io/revision: 1
-Selector:               app=nginx-app
-Replicas:               3 desired | 3 updated | 3 total | 3 available | 0 unavailable
-StrategyType:           RollingUpdate
-MinReadySeconds:        0
-RollingUpdateStrategy:  25% max unavailable, 25% max surge
-Pod Template:
-  Labels:  app=nginx-app
-  Containers:
-   nginx-container:
-    Image:         nginx:1.16
-    Port:          <none>
-    Host Port:     <none>
-    Environment:   <none>
-    Mounts:        <none>
-  Volumes:         <none>
-  Node-Selectors:  <none>
-  Tolerations:     <none>
-Conditions:
-  Type           Status  Reason
-  ----           ------  ------
-  Available      True    MinimumReplicasAvailable
-  Progressing    True    NewReplicaSetAvailable
-OldReplicaSets:  <none>
-NewReplicaSet:   nginx-deployment-989f57c54 (3/3 replicas created)
-Events:
-  Type    Reason             Age   From                   Message
-  ----    ------             ----  ----                   -------
-  Normal  ScalingReplicaSet  10m   deployment-controller  Scaled up replica set nginx-deployment-989f57c54 to 3
-thor@jumphost ~$ kubectl describe deployment  nginx-deployment -o
-error: unknown shorthand flag: 'o' in -o
-See 'kubectl describe --help' for usage.
-thor@jumphost ~$ kubectl get deployment <deployment-name> -o jsonpath='{.spec.template.spec.containers[*].image}'
-bash: deployment-name: No such file or directory
-thor@jumphost ~$ kubectl get deployment nginx-deployment  -o jsonpath='{.spec.template.spec.containers[*].image}'
-nginx:1.16thor@ju                                                        thor@jumphost ~$ 
-thor@jumphost ~$ 
-thor@jumphost ~$ 
-thor@jumphost ~$ 
-thor@jumphost ~$ 
-thor@jumphost ~$ kubectl get deploy nginx-deployment 
-NAME               READY   UP-TO-DATE   AVAILABLE   AGE
-nginx-deployment   3/3     3            3           14m
-thor@jumphost ~$ kubectl get deploy nginx-deployment -o wide
-NAME               READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS        IMAGES       SELECTOR
-nginx-deployment   3/3     3            3           14m   nginx-container   nginx:1.16   app=nginx-app
-thor@jumphost ~$ kubectl get deploy nginx-deployment -o wide
-NAME               READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS        IMAGES       SELECTOR
-nginx-deployment   3/3     3            3           23m   nginx-container   nginx:1.16   app=nginx-app
-thor@jumphost ~$ kubectl rollout history deployment nginx-deployment
-deployment.apps/nginx-deployment 
-REVISION  CHANGE-CAUSE
-1         <none>
-
-thor@jumphost ~$ 
-thor@jumphost ~$ 
-thor@jumphost ~$ 
-thor@jumphost ~$ # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-thor@jumphost ~$ kubectl get all
-NAME                                   READY   STATUS    RESTARTS   AGE
 pod/nginx-deployment-989f57c54-btxrt   1/1     Running   0          27m
 pod/nginx-deployment-989f57c54-fkwqf   1/1     Running   0          27m
 pod/nginx-deployment-989f57c54-g6qnx   1/1     Running   0          27m
@@ -129,10 +13,12 @@ deployment.apps/nginx-deployment   3/3     3            3           27m
 
 NAME                                         DESIRED   CURRENT   READY   AGE
 replicaset.apps/nginx-deployment-989f57c54   3         3         3       27m
+
 thor@jumphost ~$ kubectl get deploy nginx-deployment
 NAME               READY   UP-TO-DATE   AVAILABLE   AGE
 nginx-deployment   3/3     3            3           28m
-thor@jumphost ~$ kubectl get deploy nginx-deployment -o wide
+
+thor@jumphost ~$ kubectl get deploy nginx-deployment -o wide # This command will output the container name and the current image.
 NAME               READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS        IMAGES       SELECTOR
 nginx-deployment   3/3     3            3           28m   nginx-container   nginx:1.16   app=nginx-app
 thor@jumphost ~$ kubectl describe deploy nginx-deployment 
