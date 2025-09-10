@@ -37,24 +37,6 @@ bob@iac-server ~/terraform via 💠 default ➜  terraform init
 
 bob@iac-server ~/terraform via 💠 default ✖ vi main.tf
 
-bob@iac-server ~/terraform via 💠 default ➜  terraform validate
-╷
-│ Error: Invalid function argument
-│ 
-│   on main.tf line 3, in resource "aws_key_pair" "nautilus_kp":
-│    3:   public_key = file("/home/bob/.ssh/id_rsa.pub") 
-│     ├────────────────
-│     │ while calling file(path)
-│ 
-│ Invalid value for "path" parameter: no file exists at
-│ "/home/bob/.ssh/id_rsa.pub"; this function works only
-│ with files that are distributed as part of the
-│ configuration source code, so if this file will be
-│ created by a resource in this configuration you must
-│ instead obtain this result from an attribute of that
-│ resource.
-╵
-
 bob@iac-server ~/terraform via 💠 default ✖ vi main.tf 
 
 bob@iac-server ~/terraform via 💠 default ➜  terraform fmt
@@ -309,66 +291,3 @@ history | cut -c 8-
 
 
 ```
-### Troubleshoot
-
-
-bob@iac-server ~/terraform via 💠 default ➜  terraform validate
-╷
-│ Error: Invalid function argument
-│ 
-│   on main.tf line 3, in resource "aws_key_pair" "nautilus_kp":
-│    3:   public_key = file("~/.ssh/id_rsa.pub") # Use an existing public key or generate a new one
-│     ├────────────────
-│     │ while calling file(path)
-│ 
-│ Invalid value for "path" parameter: no file exists at
-│ "~/.ssh/id_rsa.pub"; this function works only with
-│ files that are distributed as part of the
-│ configuration source code, so if this file will be
-│ created by a resource in this configuration you must
-│ instead obtain this result from an attribute of that
-│ resource.
-╵
-
-
-Solution:
-
-The error message indicates that Terraform is missing the required providers local and tls. To fix this, you can run terraform init, which will initialize the Terraform working directory and install the necessary providers.
-
-Run the following command:
-
-
-bash
-terraform init
-
-
-After running terraform init, you should be able to validate your Terraform configuration using:
-
-
-bash
-terraform validate
-
-
-If you want to specify the required providers explicitly, you can add the following code to your provider.tf file:
-
-
-terraform
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = ">= 4.0"
-    }
-    tls = {
-      source  = "hashicorp/tls"
-      version = ">= 3.0"
-    }
-    local = {
-      source  = "hashicorp/local"
-      version = ">= 2.0"
-    }
-  }
-}
-
-
-Then, run terraform init to install the providers.
