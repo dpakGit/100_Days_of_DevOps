@@ -19,7 +19,6 @@ Ensure all pods are operational post-update.
 # Note : to perform the rolling update we need the deployment name and the container name, as this things are needed in the rolling update command. 
 
 -> thor@jumphost ~$ kubectl get all
-
 NAME                                   READY   STATUS    RESTARTS   AGE
 pod/nginx-deployment-989f57c54-btxrt   1/1     Running   0          27m
 pod/nginx-deployment-989f57c54-fkwqf   1/1     Running   0          27m
