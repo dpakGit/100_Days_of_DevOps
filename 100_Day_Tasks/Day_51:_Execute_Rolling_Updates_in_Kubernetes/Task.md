@@ -1,4 +1,14 @@
+### Task
 
+Explain the following task,
+give me the steps and commands to complete the task and where to apply which command,
+clearly explain what each step and command do :-
+
+An application currently running on the Kubernetes cluster employs the nginx web server. The Nautilus application development team has introduced some recent changes that need deployment. They've crafted an image nginx:1.19 with the latest updates.
+
+Execute a rolling update for this application, integrating the nginx:1.19 image. The deployment is named nginx-deployment.
+
+Ensure all pods are operational post-update.
 
 
 ### What I Did
@@ -6,7 +16,7 @@
 ````
 
 # Step 1: Verify the Current Deployment with the following commands:
-# Note : to perform the rolling update we need the deployment name and the container name, as this things are mentioned in the rolling update command. 
+# Note : to perform the rolling update we need the deployment name and the container name, as this things are needed in the rolling update command. 
 
 thor@jumphost ~$ kubectl get all
 
