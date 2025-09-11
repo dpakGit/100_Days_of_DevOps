@@ -1,5 +1,5 @@
 ### To roll back the nginx-deployment to the previous revision, follow these steps:
-
+```
 Step 1: Check the Deployment History
 Run the following command to view the deployment history:
 
@@ -41,7 +41,7 @@ Compare the current revision with the previous output to verify that the rollbac
 Purpose: This step confirms that the deployment has been rolled back to the previous revision.
 
 By following these steps, you should be able to successfully roll back the nginx-deployment to the previous revision.
-
+```
 
 ### The "CHANGE-CAUSE" field in the output of the kubectl rollout history command refers to the reason or description for a particular revision of a deployment. It's essentially a way to track what changes were made in each revision.
 
@@ -57,9 +57,9 @@ The "CHANGE-CAUSE" field helps with :
 - Auditing: Maintaining a record of all changes made to a deployment.
 
 
-[11-Sep-25 9:46 AM] Meta AI: https://www.baeldung.com/ops/deployment-rollout-kubernetes
-[11-Sep-25 9:46 AM] Meta AI: https://tachingchen.com/blog/kubernetes-rolling-update-with-deployment/
-[11-Sep-25 9:46 AM] Meta AI: https://linuxcloudservers.com/rollback-kubernetes-deployments/
+https://www.baeldung.com/ops/deployment-rollout-kubernetes
+https://tachingchen.com/blog/kubernetes-rolling-update-with-deployment/
+https://linuxcloudservers.com/rollback-kubernetes-deployments/
 
 
 ### Running the following command will update the CHANGE-CAUSE field of the last rollout to the message passed with the --record flag or through annotation:
