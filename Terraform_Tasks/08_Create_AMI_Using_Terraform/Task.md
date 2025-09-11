@@ -39,7 +39,7 @@ aws_instance.ec2
 
 bob@iac-server ~/terraform via 💠 default ➜  vi main.tf 
 
-# Add the following code to the main.tf
+# Add the following code to the main.tf . Scroll down to seee the updated main.tf file
 ---------------------
 # Create AMI from existing EC2 instance
 resource "aws_ami_from_instance" "devops_ec2_ami" {
