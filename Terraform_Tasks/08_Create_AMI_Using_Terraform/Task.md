@@ -134,6 +134,7 @@ resource "aws_ami_from_instance" "devops_ec2_ami" {
 }
 ```
 
+```
 bob@iac-server ~/terraform via 💠 default ➜  history | cut -c 8-
 pwd
 ls
@@ -147,6 +148,4 @@ terraform validate
 terraform apply -auto-approve
 terraform state list
 aws ec2 describe-images --filters "Name=name,Values=devops-ec2-ami"
-history | cut -c 8-
-
-bob@iac-server ~/terraform via 💠 default ➜  
+```
