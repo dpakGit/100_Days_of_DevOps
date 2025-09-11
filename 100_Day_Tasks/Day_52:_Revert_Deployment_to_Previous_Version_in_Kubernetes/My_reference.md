@@ -123,13 +123,15 @@ The --overwrite flag ensures that if the kubernetes.io/change-cause annotation a
 
 ### - The two commands provide different information:
 
-##### 1. kubectl get deploy nginx-deployment -o wide:
-    - This command displays detailed information about the deployment, including the current image version being used by the deployment.
-    - The output will show the image name and tag, which indicates the current version of the image running in the deployment.
+##### 1. kubectl get deploy nginx-deployment -o wide :
+   
+- This command displays detailed information about the deployment, including the current image version being used by the deployment.
+- The output will show the image name and tag, which indicates the current version of the image running in the deployment.
 
-##### 2. kubectl rollout history deploy nginx-deployment:
-    - This command shows the rollout history of the deployment, including all revisions and the associated change causes (if annotated).
-    - It doesn't directly display the current image version but shows the history of changes, including rollouts and rollbacks.
+##### 2. kubectl rollout history deploy nginx-deployment :
+
+- This command shows the rollout history of the deployment, including all revisions and the associated change causes (if annotated).
+- It doesn't directly display the current image version but shows the history of changes, including rollouts and rollbacks.
 
 To get the current image version from the rollout history, you'd need to look at the most recent revision and infer the image version from the change cause or other annotations, if available.
 
