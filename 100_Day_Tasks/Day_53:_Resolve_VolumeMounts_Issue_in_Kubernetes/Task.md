@@ -97,8 +97,10 @@ Events:
     - Mounting the shared-files volume at /usr/share/nginx/html, (though this might be a mistake, as Nginx is typically configured to serve files from /var/www/html).
  
 To update the php-fpm-container to mount the shared-files volume at /var/www/html instead of /usr/share/nginx/html, you'll need to update the pod's configuration.
-Here are the steps:
 
+- Here are the steps:
+
+```
 - *Step 1: Get the pod's YAML configuration*
 
 Run the following command to get the pod's YAML configuration:
@@ -152,7 +154,7 @@ kubectl describe pod nginx-phpfpm
 Check the Volume Mounts section for the php-fpm-container to ensure it's mounting the shared-files volume at the correct path.
 
 By following these steps, you should be able to update the php-fpm-container to mount the shared-files volume at /var/www/html, which should fix the issue with serving PHP files.
-
+```
 
 
 #### - Output of the describe command
