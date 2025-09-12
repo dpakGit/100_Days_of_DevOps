@@ -1,20 +1,3 @@
-Here's how you identified the problem and resolved the issue:
-
-- Identifying the problem:
-
-1. You ran kubectl describe pod nginx-phpfpm to check the pod's configuration and noticed that the php-fpm-container was mounting the shared-files volume at /usr/share/nginx/html, while the nginx-container was mounting it at /var/www/html.
-2. You realized that this mismatch in mount paths could be causing the issue.
-
-- Resolving the issue:
-
-1. You ran kubectl get pod nginx-phpfpm -o yaml > pod.yaml to export the pod's configuration to a YAML file.
-2. You edited the pod.yaml file to update the mount path for the php-fpm-container to /var/www/html, matching the mount path used by the nginx-container.
-3. You deleted the existing pod using kubectl delete pod nginx-phpfpm and then created a new pod using kubectl apply -f pod.yaml.
-4. After updating the pod's configuration, you copied the index.php file to the /var/www/html directory in the nginx-container using kubectl cp /home/thor/index.php nginx-phpfpm:/var/www/html/ -c nginx-container.
-
-By taking these steps, you were able to identify and resolve the issue with the mismatched mount paths, allowing the website to function correctly.
-
-
 - What are shared files?
 
 In this context, shared-files refers to a Kubernetes volume that is shared between two containers (php-fpm-container and nginx-container) within the same pod. This volume is an EmptyDir type, which means it's a temporary directory that exists only for the lifetime of the pod.
