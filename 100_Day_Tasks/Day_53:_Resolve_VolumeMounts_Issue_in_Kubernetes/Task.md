@@ -1,10 +1,15 @@
-thor@jumphost ~$ ls
-index.php
+
+
+### What I Did
+```
 thor@jumphost ~$ pwd
 /home/thor
 thor@jumphost ~$ ls
 index.php
-thor@jumphost ~$ kubectl describe po nginx-phpfpm 
+thor@jumphost ~$ kubectl describe po nginx-phpfpm
+```
+#### - Output of the describe command
+```
 Name:             nginx-phpfpm
 Namespace:        default
 Priority:         0
@@ -18,7 +23,7 @@ IP:               10.244.0.5
 IPs:
   IP:  10.244.0.5
 Containers:
-  php-fpm-container:
+  php-fpm-container:  # PHP-FPM CONTAINER SECTION/BLOCK ------------------------------------------------------------
     Container ID:   containerd://829de4ac66faab0d56ae794eefeb753a6d887ee6595719e888628dc92c9eb1ed
     Image:          php:7.2-fpm-alpine
     Image ID:       docker.io/library/php@sha256:2e2d92415f3fc552e9a62548d1235f852c864fcdc94bcf2905805d92baefc87f
@@ -29,10 +34,10 @@ Containers:
     Ready:          True
     Restart Count:  0
     Environment:    <none>
-    Mounts:
+    Mounts:                    - VOLUME MOUNT PHP-FPM >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
       /usr/share/nginx/html from shared-files (rw)
       /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-xzx4n (ro)
-  nginx-container:
+  nginx-container:   # NGINX CONTAINER BLOCK -------------------------------------------------------------------------------
     Container ID:   containerd://712b642a7a9943ef5a86ce0231316c62e74b7cf73f3efb2c02621ec3ccae4c3c
     Image:          nginx:latest
     Image ID:       docker.io/library/nginx@sha256:d5f28ef21aabddd098f3dbc21fe5b7a7d7a184720bc07da0b6c9b9820e97f25e
@@ -43,7 +48,7 @@ Containers:
     Ready:          True
     Restart Count:  0
     Environment:    <none>
-    Mounts:
+    Mounts:                  - VOLUME MOUNT NGINX
       /etc/nginx/nginx.conf from nginx-config-volume (rw,path="nginx.conf")
       /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-xzx4n (ro)
       /var/www/html from shared-files (rw)
@@ -84,6 +89,9 @@ Events:
   Normal  Pulled     96s   kubelet            Successfully pulled image "nginx:latest" in 7.237040123s (7.23705506s including waiting)
   Normal  Created    96s   kubelet            Created container nginx-container
   Normal  Started    96s   kubelet            Started container nginx-container
+```
+
+```
 thor@jumphost ~$ kubectl get pod nginx-phpfpm -o yaml > pod.yaml
 thor@jumphost ~$ ls
 index.php  pod.yaml
@@ -93,6 +101,10 @@ pod "nginx-phpfpm" deleted
 thor@jumphost ~$ kubectl apply -f pod.yaml
 pod/nginx-phpfpm created
 thor@jumphost ~$ kubectl describe pod nginx-phpfpm
+
+```
+#### - Output of the describe command
+```
 Name:             nginx-phpfpm
 Namespace:        default
 Priority:         0
@@ -170,7 +182,11 @@ Events:
   Normal  Pulled   23s   kubelet  Successfully pulled image "nginx:latest" in 161.481888ms (161.498327ms including waiting)
   Normal  Created  23s   kubelet  Created container nginx-container
   Normal  Started  23s   kubelet  Started container nginx-container
+```
 thor@jumphost ~$ kubectl cp /home/thor/index.php nginx-phpfpm:/var/www/html/ -c nginx-container
+
+
+
 thor@jumphost ~$ history | cut -c 8-
 ls
 pwd
