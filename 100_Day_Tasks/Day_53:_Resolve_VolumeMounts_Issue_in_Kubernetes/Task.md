@@ -97,18 +97,19 @@ Events:
   Normal  Created    96s   kubelet            Created container nginx-container
   Normal  Started    96s   kubelet            Started container nginx-container
 ```
-- Container Details
 
-  - php-fpm-container:
-   
-    - Mounting the shared-files volume at /usr/share/nginx/html, (though this might be a mistake, as Nginx is typically configured to serve files from /var/www/html).
- 
-To update the php-fpm-container to mount the shared-files volume at /var/www/html instead of /usr/share/nginx/html, you'll need to update the pod's configuration.
+#### As inferred from the kubectl describe command output / Based on the output of the kubectl describe command:
+
+- Under Container Details of php-fpm-container:
+
+- The shared-files volume is mounted at /usr/share/nginx/html, which seems incorrect since Nginx typically serves files from /var/www/html. 
+
+- To update the php-fpm-container to mount the shared-files volume at /var/www/html instead of /usr/share/nginx/html, you'll need to update the pod's configuration.
 
 - Here are the steps:
 
 ```
-- *Step 1: Get the pod's YAML configuration*
+- Step 1: Get the pod's YAML configuration
 
 Run the following command to get the pod's YAML configuration:
 
@@ -117,7 +118,7 @@ kubectl get pod nginx-phpfpm -o yaml > pod.yaml
 
 This will save the pod's configuration to a file named pod.yaml.
 
-- *Step 2: Update the php-fpm-container volume mount*
+- Step 2: Update the php-fpm-container volume mount
 
 Open the pod.yaml file and update the volumeMounts section for the php-fpm-container to mount the shared-files volume at /var/www/html:
 
@@ -134,7 +135,7 @@ containers:
     name: shared-files
 
 
-- *Step 3: Delete the existing pod*
+- Step 3: Delete the existing pod
 
 Since you can't update a running pod's configuration directly, you'll need to delete the existing pod:
 
@@ -142,7 +143,7 @@ bash
 kubectl delete pod nginx-phpfpm
 
 
-- *Step 4: Apply the updated YAML configuration*
+- Step 4: Apply the updated YAML configuration
 
 Apply the updated YAML configuration to create a new pod:
 
