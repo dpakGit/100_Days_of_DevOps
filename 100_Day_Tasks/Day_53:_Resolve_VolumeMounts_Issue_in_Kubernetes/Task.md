@@ -48,7 +48,7 @@ Containers:
     Ready:          True
     Restart Count:  0
     Environment:    <none>
-    Mounts:                  - VOLUME MOUNT NGINX
+    Mounts:                  - VOLUME MOUNT NGINX >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
       /etc/nginx/nginx.conf from nginx-config-volume (rw,path="nginx.conf")
       /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-xzx4n (ro)
       /var/www/html from shared-files (rw)
@@ -90,19 +90,71 @@ Events:
   Normal  Created    96s   kubelet            Created container nginx-container
   Normal  Started    96s   kubelet            Started container nginx-container
 ```
+- Container Details
 
-```
-thor@jumphost ~$ kubectl get pod nginx-phpfpm -o yaml > pod.yaml
-thor@jumphost ~$ ls
-index.php  pod.yaml
-thor@jumphost ~$ vi pod.yaml 
-thor@jumphost ~$ kubectl delete pod nginx-phpfpm
-pod "nginx-phpfpm" deleted
-thor@jumphost ~$ kubectl apply -f pod.yaml
-pod/nginx-phpfpm created
-thor@jumphost ~$ kubectl describe pod nginx-phpfpm
+  - php-fpm-container:
+   
+    - Mounting the shared-files volume at /usr/share/nginx/html, (though this might be a mistake, as Nginx is typically configured to serve files from /var/www/html).
+ 
+To update the php-fpm-container to mount the shared-files volume at /var/www/html instead of /usr/share/nginx/html, you'll need to update the pod's configuration.
+Here are the steps:
 
-```
+- *Step 1: Get the pod's YAML configuration*
+
+Run the following command to get the pod's YAML configuration:
+
+bash
+kubectl get pod nginx-phpfpm -o yaml > pod.yaml
+
+This will save the pod's configuration to a file named pod.yaml.
+
+- *Step 2: Update the php-fpm-container volume mount*
+
+Open the pod.yaml file and update the volumeMounts section for the php-fpm-container to mount the shared-files volume at /var/www/html:
+
+containers:
+
+- name: php-fpm-container
+
+  ...
+
+  volumeMounts:
+
+  - mountPath: /var/www/html
+  
+    name: shared-files
+
+
+- *Step 3: Delete the existing pod*
+
+Since you can't update a running pod's configuration directly, you'll need to delete the existing pod:
+
+bash
+kubectl delete pod nginx-phpfpm
+
+
+- *Step 4: Apply the updated YAML configuration*
+
+Apply the updated YAML configuration to create a new pod:
+
+bash
+kubectl apply -f pod.yaml
+
+This will create a new pod with the updated configuration.
+
+- *Step 5: Verify the changes*
+
+Once the new pod is running, you can verify that the php-fpm-container is mounting the shared-files volume at /var/www/html by running:
+
+bash
+kubectl describe pod nginx-phpfpm
+
+Check the Volume Mounts section for the php-fpm-container to ensure it's mounting the shared-files volume at the correct path.
+
+By following these steps, you should be able to update the php-fpm-container to mount the shared-files volume at /var/www/html, which should fix the issue with serving PHP files.
+
+
+
 #### - Output of the describe command
 ```
 Name:             nginx-phpfpm
@@ -183,21 +235,22 @@ Events:
   Normal  Created  23s   kubelet  Created container nginx-container
   Normal  Started  23s   kubelet  Started container nginx-container
 ```
+
 thor@jumphost ~$ kubectl cp /home/thor/index.php nginx-phpfpm:/var/www/html/ -c nginx-container
 
 
 
-thor@jumphost ~$ history | cut -c 8-
-ls
-pwd
-ls
-kubectl describe po nginx-phpfpm 
-kubectl get pod nginx-phpfpm -o yaml > pod.yaml
-ls
-vi pod.yaml 
-kubectl delete pod nginx-phpfpm
-kubectl apply -f pod.yaml
-kubectl describe pod nginx-phpfpm
-kubectl cp /home/thor/index.php nginx-phpfpm:/var/www/html/ -c nginx-container
-history | cut -c 8-
-thor@jumphost ~$ 
+
+
+```
+thor@jumphost ~$ kubectl get pod nginx-phpfpm -o yaml > pod.yaml
+thor@jumphost ~$ ls
+index.php  pod.yaml
+thor@jumphost ~$ vi pod.yaml 
+thor@jumphost ~$ kubectl delete pod nginx-phpfpm
+pod "nginx-phpfpm" deleted
+thor@jumphost ~$ kubectl apply -f pod.yaml
+pod/nginx-phpfpm created
+thor@jumphost ~$ kubectl describe pod nginx-phpfpm
+thor@jumphost ~$ kubectl cp /home/thor/index.php nginx-phpfpm:/var/www/html/ -c nginx-container
+```
