@@ -246,10 +246,10 @@ Events:
   Normal  Started  23s   kubelet  Started container nginx-container
 ```
 
-thor@jumphost ~$ kubectl cp /home/thor/index.php nginx-phpfpm:/var/www/html/ -c nginx-container
+- Copy the index.php file to the /var/www/html directory using the following command:
 
-
-
+    bash
+     kubectl cp /home/thor/index.php nginx-phpfpm:/var/www/html/ -c nginx-container
 
 
 ```
