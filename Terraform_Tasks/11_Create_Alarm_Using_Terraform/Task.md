@@ -66,6 +66,7 @@ aws_cloudwatch_metric_alarm.nautilus-alarm: Creating...
 aws_cloudwatch_metric_alarm.nautilus-alarm: Creation complete after 1s [id=nautilus-alarm]
 
 Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
+```
 
 ### # main.tf
 ```
@@ -84,6 +85,7 @@ resource "aws_cloudwatch_metric_alarm" "nautilus-alarm" {
   ok_actions                = []
 }
 ```
+
 ```
 bob@iac-server ~/terraform via 💠 default ➜  history | cut -c 8-
 pwd
