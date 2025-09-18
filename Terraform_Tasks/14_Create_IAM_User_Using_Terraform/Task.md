@@ -73,4 +73,6 @@ resource "aws_iam_user" "iamuser_kirsty" {
   name = "iamuser_kirsty"
 }
 ```
+
+Note: Important: Make sure you have the necessary AWS credentials configured on your system, such as AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY, or a ~/.aws/credentials file. Terraform will use these credentials to authenticate with AWS and create the IAM user.
  
