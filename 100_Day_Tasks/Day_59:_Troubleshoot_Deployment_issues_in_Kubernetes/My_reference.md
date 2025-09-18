@@ -33,11 +33,11 @@ By following these best practices and troubleshooting steps, similar issues can 
 2. Check for spelling mistakes and other small errors in the describe output then go for other ways of trouble shooting.
 3. 
 
-### How i resolve the issue:
+### How I resolve the issue:
 
 1.
 kubectl describe pod redis-deployment-54cdf4f76d-w88tp
-
+```
 Name:             redis-deployment-54cdf4f76d-w88tp
 Namespace:        default
 Priority:         0
@@ -100,7 +100,7 @@ Events:
   Normal   Scheduled    11m                  default-scheduler  Successfully assigned default/redis-deployment-54cdf4f76d-w88tp to kodekloud-control-plane
   Warning  FailedMount  91s (x13 over 11m)   kubelet            MountVolume.SetUp failed for volume "config" : configmap "redis-conig" not found
   Warning  FailedMount  46s (x5 over 9m44s)  kubelet            Unable to attach or mount volumes: unmounted volumes=[config], unattached volumes=[], failed to process volumes=[]: timed out waiting for the condition
-
+```
 
 Meta Ai Solution :
 
@@ -149,6 +149,7 @@ I choosed to update the deployment:
 So, I ran the following command:
 
 kubectl describe deployment redis-deployment
+```
 Name:                   redis-deployment
 Namespace:              default
 CreationTimestamp:      Thu, 18 Sep 2025 04:38:54 +0000
@@ -194,7 +195,7 @@ Events:
   Type    Reason             Age   From                   Message
   ----    ------             ----  ----                   -------
   Normal  ScalingReplicaSet  17m   deployment-controller  Scaled up replica set redis-deployment-54cdf4f76d to 1
-
+```
 
   Meta AI solution:
 
@@ -298,7 +299,8 @@ By running kubectl apply, you'll update the deployment, and the pod should be ab
 
 3.
 
- ### kubectl describe pod redis-deployment-5bcd4c7d64-84b5p 
+kubectl describe pod redis-deployment-5bcd4c7d64-84b5p 
+``` 
 Name:             redis-deployment-5bcd4c7d64-84b5p
 Namespace:        default
 Priority:         0
@@ -365,7 +367,7 @@ Events:
   Normal   Pulling    6s (x4 over 92s)   kubelet            Pulling image "redis:alpin"
   Warning  Failed     6s (x4 over 91s)   kubelet            Failed to pull image "redis:alpin": rpc error: code = NotFound desc = failed to pull and unpack image "docker.io/library/redis:alpin": failed to resolve reference "docker.io/library/redis:alpin": docker.io/library/redis:alpin: not found
   Warning  Failed     6s (x4 over 91s)   kubelet            Error: ErrImagePull
-
+```
 
 Meta AI Solution
 
@@ -396,6 +398,7 @@ This should resolve the issue, and the pod should be able to pull the correct im
 4. 
 
 vi redis-deployment.yaml 
+```
 thor@jumphost ~$ kubectl apply -f redis-deployment.yaml 
 Error from server (Conflict): error when applying patch:
 {"metadata":{"annotations":{"deployment.kubernetes.io/revision":"1","kubectl.kubernetes.io/last-applied-configuration":"{\"apiVersion\":\"apps/v1\",\"kind\":\"Deployment\",\"metadata\":{\"annotations\":{\"deployment.kubernetes.io/revision\":\"1\"},\"creationTimestamp\":\"2025-09-18T04:38:54Z\",\"generation\":1,\"labels\":{\"app\":\"redis\"},\"name\":\"redis-deployment\",\"namespace\":\"default\",\"resourceVersion\":\"1831\",\"uid\":\"e3f65161-621a-4e65-a702-88a4f96a65d3\"},\"spec\":{\"progressDeadlineSeconds\":600,\"replicas\":1,\"revisionHistoryLimit\":10,\"selector\":{\"matchLabels\":{\"app\":\"redis\"}},\"strategy\":{\"rollingUpdate\":{\"maxSurge\":\"25%\",\"maxUnavailable\":\"25%\"},\"type\":\"RollingUpdate\"},\"template\":{\"metadata\":{\"creationTimestamp\":null,\"labels\":{\"app\":\"redis\"}},\"spec\":{\"containers\":[{\"image\":\"redis:alpine\",\"imagePullPolicy\":\"IfNotPresent\",\"name\":\"redis-container\",\"ports\":[{\"containerPort\":6379,\"protocol\":\"TCP\"}],\"resources\":{\"requests\":{\"cpu\":\"300m\"}},\"terminationMessagePath\":\"/dev/termination-log\",\"terminationMessagePolicy\":\"File\",\"volumeMounts\":[{\"mountPath\":\"/redis-master-data\",\"name\":\"data\"},{\"mountPath\":\"/redis-master\",\"name\":\"config\"}]}],\"dnsPolicy\":\"ClusterFirst\",\"restartPolicy\":\"Always\",\"schedulerName\":\"default-scheduler\",\"securityContext\":{},\"terminationGracePeriodSeconds\":30,\"volumes\":[{\"emptyDir\":{},\"name\":\"data\"},{\"configMap\":{\"defaultMode\":420,\"name\":\"redis-config\"},\"name\":\"config\"}]}}},\"status\":{\"conditions\":[{\"lastTransitionTime\":\"2025-09-18T04:38:54Z\",\"lastUpdateTime\":\"2025-09-18T04:38:54Z\",\"message\":\"Deployment does not have minimum availability.\",\"reason\":\"MinimumReplicasUnavailable\",\"status\":\"False\",\"type\":\"Available\"},{\"lastTransitionTime\":\"2025-09-18T04:48:55Z\",\"lastUpdateTime\":\"2025-09-18T04:48:55Z\",\"message\":\"ReplicaSet \\\"redis-deployment-54cdf4f76d\\\" has timed out progressing.\",\"reason\":\"ProgressDeadlineExceeded\",\"status\":\"False\",\"type\":\"Progressing\"}],\"observedGeneration\":1,\"replicas\":1,\"unavailableReplicas\":1,\"updatedReplicas\":1}}\n"},"generation":1,"resourceVersion":"1831"},"spec":{"template":{"spec":{"$setElementOrder/containers":[{"name":"redis-container"}],"containers":[{"image":"redis:alpine","name":"redis-container"}]}}},"status":{"$setElementOrder/conditions":[{"type":"Available"},{"type":"Progressing"}],"conditions":[{"lastTransitionTime":"2025-09-18T04:48:55Z","lastUpdateTime":"2025-09-18T04:48:55Z","message":"ReplicaSet \"redis-deployment-54cdf4f76d\" has timed out progressing.","reason":"ProgressDeadlineExceeded","status":"False","type":"Progressing"}],"observedGeneration":1,"replicas":1,"unavailableReplicas":1}}
@@ -403,7 +406,7 @@ to:
 Resource: "apps/v1, Resource=deployments", GroupVersionKind: "apps/v1, Kind=Deployment"
 Name: "redis-deployment", Namespace: "default"
 for: "redis-deployment.yaml": error when patching "redis-deployment.yaml": Operation cannot be fulfilled on deployments.apps "redis-deployment": the object has been modified; please apply your changes to the latest version and try again
-
+```
 
 Meta Ai Solution
 
