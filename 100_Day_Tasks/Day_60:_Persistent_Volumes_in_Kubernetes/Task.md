@@ -12,6 +12,44 @@ Create a pod named as pod-datacenter, mount the persistent volume you created wi
 Create a node port type service named web-datacenter using node port 30008 to expose the web server running within the pod.
 
 
+### Here's a breakdown of the task:
+
+Task Overview
+
+The task is to create a Kubernetes template to deploy a web application on a cluster. The template needs to use persistent volumes to store the application code.
+
+Requirements
+
+1. Create a PersistentVolume (PV)
+    - Name: pv-datacenter
+    - Storage class: manual
+    - Capacity: 4Gi
+    - Access mode: ReadWriteOnce
+    - Volume type: hostPath
+    - Path: /mnt/security
+2. Create a PersistentVolumeClaim (PVC)
+    - Name: pvc-datacenter
+    - Storage class: manual
+    - Requested storage: 1Gi
+    - Access mode: ReadWriteOnce
+3. Create a Pod
+    - Name: pod-datacenter
+    - Container name: container-datacenter
+    - Image: httpd:latest
+    - Mount the PVC pvc-datacenter at the document root of the web server
+4. Create a Service
+    - Name: web-datacenter
+    - Type: NodePort
+    - Node port: 30008
+    - Expose the web server running within the pod
+
+Objective
+
+The objective is to create a Kubernetes deployment that uses a persistent volume to store application code and exposes a web server using a NodePort service.
+
+To accomplish this task, you'll need to create YAML files for each of the required resources (PV, PVC, Pod, and Service) and apply them to the Kubernetes cluster.
+
+
 ### What I Did
 
 ```
