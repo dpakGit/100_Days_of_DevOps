@@ -3,7 +3,7 @@
 
 ### What I Did
 
-
+```
 bob@iac-server ~/terraform via 💠 default ➜  pwd
 /home/bob/terraform
 
@@ -16,25 +16,6 @@ bob@iac-server ~/terraform via 💠 default ➜  terraform fmt
 provider.tf
 
 bob@iac-server ~/terraform via 💠 default ➜  terraform init
-Initializing the backend...
-Initializing provider plugins...
-- Finding hashicorp/aws versions matching "5.91.0"...
-- Installing hashicorp/aws v5.91.0...
-- Installed hashicorp/aws v5.91.0 (signed by HashiCorp)
-Terraform has created a lock file .terraform.lock.hcl to record the provider
-selections it made above. Include this file in your version control repository
-so that Terraform can guarantee to make the same selections by default when
-you run "terraform init" in the future.
-
-Terraform has been successfully initialized!
-
-You may now begin working with Terraform. Try running "terraform plan" to see
-any changes that are required for your infrastructure. All Terraform commands
-should now work.
-
-If you ever set or change modules or backend configuration for Terraform,
-rerun this command to reinitialize your working directory. If you forget, other
-commands will detect it and remind you to do so if necessary.
 
 bob@iac-server ~/terraform via 💠 default ➜  terraform validate
 Success! The configuration is valid.
@@ -66,8 +47,10 @@ Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
 
 bob@iac-server ~/terraform via 💠 default ➜  terraform state list
 aws_iam_group.siva_group
+```
 
-bob@iac-server ~/terraform via 💠 default ➜  history
+```
+💠 default ➜  history
     1  pwd
     2  ls
     3  vi main.tf
@@ -76,12 +59,12 @@ bob@iac-server ~/terraform via 💠 default ➜  history
     6  terraform validate
     7  terraform apply -auto-approve
     8  terraform state list
-    9  history
+```
 
-bob@iac-server ~/terraform via 💠 default ➜  cat main.tf 
+### # main.tf
+
+```
 resource "aws_iam_group" "siva_group" {
   name = "iamgroup_siva"
 }
-
-
-bob@iac-server ~/terraform via 💠 default ➜  
+```
