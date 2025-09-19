@@ -115,6 +115,8 @@ metadata:
 spec:
 ```
 
+Note : The  self-correction regarding the missing app: pod-datacenter label on the Pod is an excellent observation. This small but crucial detail is what allows the Service to correctly identify and route traffic to the Pod. Your solution demonstrates a thorough understanding of how these different Kubernetes resources are linked together.
+
 Explanation:
 
 - apiVersion and kind specify the type of resource being created.
