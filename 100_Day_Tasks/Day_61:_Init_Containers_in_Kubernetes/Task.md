@@ -12,99 +12,65 @@ Main container should be named as ic-main-datacenter, use image fedora with late
 
 Volume to be named as ic-volume-datacenter and it should be an emptyDir type.
 
-```
-Here's a pointwise explanation of the task:
 
-Task Overview
-Deploy an application on a Kubernetes cluster using a Deployment.
+### Here's a pointwise explanation of the task:
 
-The application has some pre-requisites that need to be fulfilled before deploying the main application container.
+#### Task Overview
 
-Use init containers to perform these pre-requisites.
+- Deploy an application on a Kubernetes cluster using a Deployment.
+- The application has some pre-requisites that need to be fulfilled before deploying the main application container.
+- Use init containers to perform these pre-requisites.
 
 Step-by-Step Requirements
-Create a Deployment
 
-Name: ic-deploy-datacenter
-
-Configure Deployment Spec
-
-Replicas: 1 (i.e., one copy of the application)
-
-Labels:
-
-app: ic-datacenter
-
-Template's metadata labels:
-
-app: ic-datacenter (same as above)
-
-Init Container
-
-Name: ic-msg-datacenter
-
-Image: fedora:latest
-
-Command:
-
-/bin/bash
-
--c
-
-echo Init Done - Welcome to xFusionCorp Industries > /ic/news
-
-Volume Mount:
-
-Name: ic-volume-datacenter
-
-Mount Path: /ic
-
-Main Container
-
-Name: ic-main-datacenter
-
-Image: fedora:latest
-
-Command:
-
-/bin/bash
-
--c
-
-while true; do cat /ic/news; sleep 5; done
-
-Volume Mount:
-
-Name: ic-volume-datacenter
-
-Mount Path: /ic
-
-Volume
-
-Name: ic-volume-datacenter
-
-Type: emptyDir
+1. Create a Deployment
+    - Name: ic-deploy-datacenter
+2. Configure Deployment Spec
+    - Replicas: 1 (i.e., one copy of the application)
+    - Labels:
+        - app: ic-datacenter
+    - Template's metadata labels:
+        - app: ic-datacenter (same as above)
+3. Init Container
+    - Name: ic-msg-datacenter
+    - Image: fedora:latest
+    - Command:
+        - /bin/bash
+        - -c
+        - echo Init Done - Welcome to xFusionCorp Industries > /ic/news
+    - Volume Mount:
+        - Name: ic-volume-datacenter
+        - Mount Path: /ic
+4. Main Container
+    - Name: ic-main-datacenter
+    - Image: fedora:latest
+    - Command:
+        - /bin/bash
+        - -c
+        - while true; do cat /ic/news; sleep 5; done
+    - Volume Mount:
+        - Name: ic-volume-datacenter
+        - Mount Path: /ic
+5. Volume
+    - Name: ic-volume-datacenter
+    - Type: emptyDir
 
 What to Do
-Create a YAML file that defines the Deployment with the above specifications.
 
-Use the kubectl apply command to apply the YAML file and create the Deployment.
-
-Verify that the Deployment, init container, and main container are running as expected.
-
-Check the logs of the main container to see the output of the init container.
+- Create a YAML file that defines the Deployment with the above specifications.
+- Use the kubectl apply command to apply the YAML file and create the Deployment.
+- Verify that the Deployment, init container, and main container are running as expected.
+- Check the logs of the main container to see the output of the init container.
 
 Purpose of Init Container
-The init container writes a message to a file /ic/news before the main container starts.
 
-The main container reads and displays the message every 5 seconds.
+- The init container writes a message to a file /ic/news before the main container starts.
+- The main container reads and displays the message every 5 seconds.
 
 Purpose of Volume
-The volume is used to share data between the init container and the main container.
 
-The init container writes to the volume, and the main container reads from it.
-```
-
+- The volume is used to share data between the init container and the main container.
+- The init container writes to the volume, and the main container reads from it.
 
 
 ### What I Did
