@@ -90,6 +90,14 @@ thor@jumphost ~$ kubectl get deployments.apps
 NAME                   READY   UP-TO-DATE   AVAILABLE   AGE
 ic-deploy-datacenter   1/1     1            1           11s
 
+thor@jumphost ~$ kubectl get pods
+
+
+# Run the following command to check the logs of the main container
+
+thor@jumphost ~$ kubectl logs -f <pod-name> -c ic-main-datacenter
+ 
+
 
 thor@jumphost ~$ kubectl get deployments.apps ic-deploy-datacenter 
 NAME                   READY   UP-TO-DATE   AVAILABLE   AGE
