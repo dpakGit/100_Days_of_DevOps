@@ -12,7 +12,7 @@ Main container should be named as ic-main-datacenter, use image fedora with late
 
 Volume to be named as ic-volume-datacenter and it should be an emptyDir type.
 
-------------------------------------------
+```
 Here's a pointwise explanation of the task:
 
 Task Overview
@@ -103,7 +103,7 @@ Purpose of Volume
 The volume is used to share data between the init container and the main container.
 
 The init container writes to the volume, and the main container reads from it.
--------------------------------------------------
+```
 
 
 
