@@ -121,3 +121,48 @@ This YAML file and the associated commands demonstrate how to use init container
 - Downloading dependencies
 
 By using init containers, you can decouple the setup tasks from the main application code and ensure that the application starts only after the setup tasks have completed successfully.
+
+
+
+### To view the deployment, its replica set, and the pod running under it, you can use the following commands:
+
+
+bash
+# Get deployments
+kubectl get deployments
+
+# Get replica sets
+kubectl get rs
+
+# Get pods
+kubectl get pods
+
+
+However, if you want to see the relationship between the deployment, replica set, and pod, you can use the following command:
+
+
+bash
+kubectl get deployments,replicasets,pods
+
+
+Or, you can use the --all-namespaces flag to view resources across all namespaces:
+
+
+bash
+kubectl get deployments,replicasets,pods --all-namespaces
+
+
+Additionally, you can use the -l flag to filter resources by label. For example, if your deployment has a label app: ic-datacenter, you can use:
+
+
+bash
+kubectl get deployments,replicasets,pods -l app=ic-datacenter
+
+
+This will show you the deployment, replica set, and pod(s) associated with the label app: ic-datacenter.
+
+You can also describe a deployment to see more detailed information about it, including the replica set and pod(s):
+
+
+bash
+kubectl describe deployment ic-deploy-datacenter
