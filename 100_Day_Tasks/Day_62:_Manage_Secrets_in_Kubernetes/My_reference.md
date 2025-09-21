@@ -321,7 +321,9 @@ To clarify:
 
 The kubectl exec command allows you to execute commands inside the container, and in this case, we're using it to access the file /opt/apps/beta.txt inside the container.
 
-#### In this task, creating a Secret and then mounting it inside a container might seem like an extra step if you're just copying the Secret's value from a local machine. However, the purpose of Secrets in Kubernetes is to manage sensitive information, such as passwords, API keys, or licenses, in a secure way.
+### Why This Task ?
+
+In this task, creating a Secret and then mounting it inside a container might seem like an extra step if you're just copying the Secret's value from a local machine. However, the purpose of Secrets in Kubernetes is to manage sensitive information, such as passwords, API keys, or licenses, in a secure way.
 
 Why Secrets are useful
 
