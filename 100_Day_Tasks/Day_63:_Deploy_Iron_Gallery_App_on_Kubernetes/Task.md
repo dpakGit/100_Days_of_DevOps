@@ -4,7 +4,7 @@ There is an iron gallery app that the Nautilus DevOps team was developing. They 
 
 **1. Create a namespace "iron-namespace-devops"**
 
-**2. Create a deployment - iron-gallery-deployment-devops - for iron gallery under the same namespace you created.**
+**2. Create a deployment `iron-gallery-deployment-devops` for iron gallery under the same namespace you created.**
 
 :- Labels run should be iron-gallery.
 
