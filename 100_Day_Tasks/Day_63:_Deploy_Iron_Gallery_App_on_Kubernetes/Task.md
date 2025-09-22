@@ -2,9 +2,9 @@
 
 There is an iron gallery app that the Nautilus DevOps team was developing. They have recently customized the app and are going to deploy the same on the Kubernetes cluster. Below you can find more details:
 
-**1. Create a namespace iron-namespace-devops**
+**1. Create a namespace "iron-namespace-devops"**
 
-**2. Create a deployment iron-gallery-deployment-devops for iron gallery under the same namespace you created.**
+**2. Create a deployment - iron-gallery-deployment-devops - for iron gallery under the same namespace you created.**
 
 :- Labels run should be iron-gallery.
 
