@@ -2,9 +2,9 @@
 
 There is an iron gallery app that the Nautilus DevOps team was developing. They have recently customized the app and are going to deploy the same on the Kubernetes cluster. Below you can find more details:
 
-1. Create a namespace iron-namespace-devops
+**1. Create a namespace iron-namespace-devops**
 
-2. Create a deployment iron-gallery-deployment-devops for iron gallery under the same namespace you created.
+**2. Create a deployment iron-gallery-deployment-devops for iron gallery under the same namespace you created.**
 
 :- Labels run should be iron-gallery.
 
@@ -24,7 +24,7 @@ There is an iron gallery app that the Nautilus DevOps team was developing. They 
 
 :- First volume name should be config and give it emptyDir and second volume name should be images, also give it emptyDir.
 
-3. Create a deployment iron-db-deployment-devops for iron db under the same namespace.
+**3. Create a deployment iron-db-deployment-devops for iron db under the same namespace.**
 
 :- Labels db should be mariadb.
 
@@ -40,9 +40,11 @@ There is an iron gallery app that the Nautilus DevOps team was developing. They 
 
 :- Volume mount name should be db and its mountPath should be /var/lib/mysql. Volume name should be db and give it an emptyDir.
 
-4. Create a service for iron db which should be named iron-db-service-devops under the same namespace. Configure spec as selector's db should be mariadb. Protocol should be TCP, port and targetPort should be 3306 and its type should be ClusterIP.
 
-5. **Create a service for iron gallery which should be named iron-gallery-service-devops under the same namespace. Configure spec as selector's run should be iron-gallery. Protocol should be TCP, port and targetPort should be 80, nodePort should be 32678 and its type should be NodePort.
+**4. Create a service for iron db which should be named iron-db-service-devops under the same namespace. Configure spec as selector's db should be mariadb. Protocol should be TCP, port and targetPort should be 3306 and its type should be ClusterIP.**
+
+
+**5. Create a service for iron gallery which should be named iron-gallery-service-devops under the same namespace. Configure spec as selector's run should be iron-gallery. Protocol should be TCP, port and targetPort should be 80, nodePort should be 32678 and its type should be NodePort.**
 
 
 
