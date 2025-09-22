@@ -190,10 +190,16 @@ ls
 
 thor@jumphost ~$ ls
 
-iron-db-deployment.yaml  iron-gallery-deployment.yaml
+iron-db-deployment.yaml 
 
 
-iron-db-service.yaml     iron-gallery-service.yaml
+iron-gallery-deployment.yaml
+
+
+iron-db-service.yaml     
+
+
+iron-gallery-service.yaml
 
 ### # iron-gallery-deployment.yaml 
 
