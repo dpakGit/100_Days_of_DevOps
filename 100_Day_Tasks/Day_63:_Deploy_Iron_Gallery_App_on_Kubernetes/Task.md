@@ -2,7 +2,7 @@
 
 There is an iron gallery app that the Nautilus DevOps team was developing. They have recently customized the app and are going to deploy the same on the Kubernetes cluster. Below you can find more details:
 
-**1. Create a namespace "iron-namespace-devops"**
+**1. Create a namespace `iron-namespace-devops`**
 
 **2. Create a deployment `iron-gallery-deployment-devops` for iron gallery under the same namespace you created.**
 
@@ -24,7 +24,7 @@ There is an iron gallery app that the Nautilus DevOps team was developing. They 
 
 :- First volume name should be config and give it emptyDir and second volume name should be images, also give it emptyDir.
 
-**3. Create a deployment iron-db-deployment-devops for iron db under the same namespace.**
+**3. Create a deployment `iron-db-deployment-devops` for iron db under the same namespace.**
 
 :- Labels db should be mariadb.
 
@@ -41,23 +41,32 @@ There is an iron gallery app that the Nautilus DevOps team was developing. They 
 :- Volume mount name should be db and its mountPath should be /var/lib/mysql. Volume name should be db and give it an emptyDir.
 
 
-**4. Create a service for iron db which should be named iron-db-service-devops under the same namespace. Configure spec as selector's db should be mariadb. Protocol should be TCP, port and targetPort should be 3306 and its type should be ClusterIP.**
+**4. Create a service for iron db which should be named `iron-db-service-devops` under the same namespace.** 
+
+Configure spec as selector's db should be mariadb. 
+
+Protocol should be TCP, port and targetPort should be 3306 and its type should be ClusterIP.
 
 
-**5. Create a service for iron gallery which should be named iron-gallery-service-devops under the same namespace. Configure spec as selector's run should be iron-gallery. Protocol should be TCP, port and targetPort should be 80, nodePort should be 32678 and its type should be NodePort.**
+**5. Create a service for iron gallery which should be named `iron-gallery-service-devops` under the same namespace.**
+
+Configure spec as selector's run should be iron-gallery. 
+
+Protocol should be TCP, port and targetPort should be 80, nodePort should be 32678 and its type should be NodePort.
 
 
 
 ### What I Did
 
-
+```
 thor@jumphost ~$ pwd
 /home/thor
+
 thor@jumphost ~$ ls
+
 thor@jumphost ~$ kubectl create ns iron-namespace-devops
 namespace/iron-namespace-devops created
-thor@jumphost ~$ kuvectl get ns
-bash: kuvectl: command not found
+
 thor@jumphost ~$ kubectl get ns
 NAME                    STATUS   AGE
 default                 Active   12m
@@ -66,20 +75,27 @@ kube-node-lease         Active   12m
 kube-public             Active   12m
 kube-system             Active   12m
 local-path-storage      Active   12m
+
 thor@jumphost ~$ vi iron-gallery-deployment.yaml
+
 thor@jumphost ~$ vi iron-db-deployment.yaml
+
 thor@jumphost ~$ kubectl apply -f iron-gallery-deployment.yaml 
 deployment.apps/iron-gallery-deployment-devops created
+
 thor@jumphost ~$ kubectl apply -f iron-db-deployment.yaml 
 deployment.apps/iron-db-deployment-devops created
+
 thor@jumphost ~$ kubectl get deployments.apps 
 No resources found in default namespace.
+
+# The above command couldnot give any output as the objects were created in a specific namespace but in the command we have not mentioned it.
+
 thor@jumphost ~$ kubectl get deployments.apps -n iron-namespace-devops 
 NAME                             READY   UP-TO-DATE   AVAILABLE   AGE
 iron-db-deployment-devops        1/1     1            1           31s
 iron-gallery-deployment-devops   1/1     1            1           45s
-thor@jumphost ~$ kubectl get all deployments.apps -n iron-namespace-devops 
-error: you must specify only one resource
+
 thor@jumphost ~$ kubectl get all  -n iron-namespace-devops NAME                                                 READY   STATUS    RESTARTS   AGE
 pod/iron-db-deployment-devops-66f694bd4d-5jcbk       1/1     Running   0          77s
 pod/iron-gallery-deployment-devops-9c67c8cb7-sp52r   1/1     Running   0          91s
@@ -91,30 +107,31 @@ deployment.apps/iron-gallery-deployment-devops   1/1     1            1         
 NAME                                                       DESIRED   CURRENT   READY   AGE
 replicaset.apps/iron-db-deployment-devops-66f694bd4d       1         1         1       77s
 replicaset.apps/iron-gallery-deployment-devops-9c67c8cb7   1         1         1       91s
+
 thor@jumphost ~$ kubectl get po -n iron-namespace-devops 
 NAME                                             READY   STATUS    RESTARTS   AGE
 iron-db-deployment-devops-66f694bd4d-5jcbk       1/1     Running   0          94s
 iron-gallery-deployment-devops-9c67c8cb7-sp52r   1/1     Running   0          108s
-thor@jumphost ~$ # Note : since the objects are created in a specific namespace to find the use namespace name with the command
+
+# Note : since the objects are created in a specific namespace to find the use namespace name with the command
+
 thor@jumphost ~$ vi iron-db-service.yaml
-thor@jumphost ~$ vi iron-gallery-service.yam
+
 thor@jumphost ~$ kubectl apply -f iron-db-service.yaml
-kubectl apply -f iron-gallery-service.yaml
 service/iron-db-service-devops created
-error: the path "iron-gallery-service.yaml" does not exist
-thor@jumphost ~$ ls
-iron-db-deployment.yaml  iron-gallery-deployment.yaml
-iron-db-service.yaml     iron-gallery-service.yam
-thor@jumphost ~$ mv iron-gallery-service.yam iron-gallery-service.yaml
-thor@jumphost ~$ ls
-iron-db-deployment.yaml  iron-gallery-deployment.yaml
-iron-db-service.yaml     iron-gallery-service.yaml
+
+thor@jumphost ~$ vi iron-gallery-service.yaml
+
 thor@jumphost ~$ kubectl apply -f iron-gallery-service.yaml
 service/iron-gallery-service-devops created
+
 thor@jumphost ~$ kubectl get svc -n iron-namespace-devops 
 NAME                          TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
 iron-db-service-devops        ClusterIP   10.96.15.187    <none>        3306/TCP       2m14s
 iron-gallery-service-devops   NodePort    10.96.163.202   <none>        80:32678/TCP   26s
+
+# verify that the objects were created
+
 thor@jumphost ~$ kubectl get namespace
 kubectl get deployments -n iron-namespace-devops
 kubectl get pods -n iron-namespace-devops
@@ -135,10 +152,11 @@ iron-gallery-deployment-devops-9c67c8cb7-sp52r   1/1     Running   0          7m
 NAME                          TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
 iron-db-service-devops        ClusterIP   10.96.15.187    <none>        3306/TCP       3m13s
 iron-gallery-service-devops   NodePort    10.96.163.202   <none>        80:32678/TCP   85s
-thor@jumphost ~$ ls
-iron-db-deployment.yaml  iron-gallery-deployment.yaml
-iron-db-service.yaml     iron-gallery-service.yaml
-thor@jumphost ~$ history | cut -c 8-
+```
+
+
+```
+$ history | cut -c 8-
 pwd
 ls
 kubectl create ns iron-namespace-devops
@@ -168,11 +186,16 @@ kubectl get deployments -n iron-namespace-devops
 kubectl get pods -n iron-namespace-devops
 kubectl get svc -n iron-namespace-devops
 ls
-history | cut -c 8-
+```
+
+
 thor@jumphost ~$ ls
 iron-db-deployment.yaml  iron-gallery-deployment.yaml
 iron-db-service.yaml     iron-gallery-service.yaml
-thor@jumphost ~$ cat iron-gallery-deployment.yaml 
+
+### # iron-gallery-deployment.yaml 
+
+```
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -205,8 +228,10 @@ spec:
         emptyDir: {}
       - name: images
         emptyDir: {}
+```
 
-thor@jumphost ~$ cat iron-db-deployment.yaml 
+### #iron-db-deployment.yaml 
+```
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -240,11 +265,9 @@ spec:
       volumes:
       - name: db
         emptyDir: {}
-
-thor@jumphost ~$ ls
-iron-db-deployment.yaml  iron-gallery-deployment.yaml
-iron-db-service.yaml     iron-gallery-service.yaml
-thor@jumphost ~$  cat iron-gallery-service.yaml 
+```
+### # iron-gallery-service.yaml
+```
 apiVersion: v1
 kind: Service
 metadata:
@@ -259,8 +282,9 @@ spec:
     targetPort: 80
     nodePort: 32678
   type: NodePort
-
-thor@jumphost ~$  cat iron-db-service.yaml 
+```
+### # iron-db-service.yaml 
+```
 apiVersion: v1
 kind: Service
 metadata:
@@ -274,5 +298,4 @@ spec:
     port: 3306
     targetPort: 3306
   type: ClusterIP
-
-thor@jumphost ~$ 
+```
