@@ -7,9 +7,12 @@ nodePort should be 32345 and targetPort should be python flask app's default por
 
 ### What I Did
 
+```
 thor@jumphost ~$ pwd
 /home/thor
+
 thor@jumphost ~$ ls
+
 thor@jumphost ~$ kubectl get all
 NAME                                             READY   STATUS             RESTARTS   AGE
 pod/python-deployment-xfusion-5dcd4fff84-hj7bh   0/1     ImagePullBackOff   0          74s
@@ -23,16 +26,15 @@ deployment.apps/python-deployment-xfusion   0/1     1            0           74s
 
 NAME                                                   DESIRED   CURRENT   READY   AGE
 replicaset.apps/python-deployment-xfusion-5dcd4fff84   1         1         0       74s
+
 thor@jumphost ~$ kubectl get pod
 NAME                                         READY   STATUS             RESTARTS   AGE
 python-deployment-xfusion-5dcd4fff84-hj7bh   0/1     ImagePullBackOff   0          2m12s
-thor@jumphost ~$ kubectl get pod - o wide
-Error from server (NotFound): pods "-" not found
-Error from server (NotFound): pods "o" not found
-Error from server (NotFound): pods "wide" not found
+
 thor@jumphost ~$ kubectl get pod -o wide
 NAME                                         READY   STATUS             RESTARTS   AGE     IP           NODE                      NOMINATED NODE   READINESS GATES
 python-deployment-xfusion-5dcd4fff84-hj7bh   0/1     ImagePullBackOff   0          2m38s   10.244.0.5   kodekloud-control-plane   <none>           <none>
+
 thor@jumphost ~$ kubectl describe po
 Name:             python-deployment-xfusion-5dcd4fff84-hj7bh
 Namespace:        default
@@ -88,9 +90,13 @@ Events:
   Warning  Failed     96s (x4 over 3m11s)  kubelet            Error: ErrImagePull
   Warning  Failed     85s (x6 over 3m10s)  kubelet            Error: ImagePullBackOff
   Normal   BackOff    71s (x7 over 3m10s)  kubelet            Back-off pulling image "poroko/flask-app-demo"
+
+
 thor@jumphost ~$ kubectl get deploy
 NAME                        READY   UP-TO-DATE   AVAILABLE   AGE
 python-deployment-xfusion   0/1     1            0           11m
+
+
 thor@jumphost ~$ kubectl describe deploy python-deployment-xfusion 
 Name:                   python-deployment-xfusion
 Namespace:              default
@@ -125,10 +131,12 @@ Events:
   Type    Reason             Age   From                   Message
   ----    ------             ----  ----                   -------
   Normal  ScalingReplicaSet  11m   deployment-controller  Scaled up replica set python-deployment-xfusion-5dcd4fff84 to 1
+
+
 thor@jumphost ~$ kubectl get deployments.apps python-deployment-xfusion -o yaml > python-deployment-xfusion.yaml
-thor@jumphost ~$ ls
 python-deployment-xfusion.yaml
-thor@jumphost ~$ cat python-deployment-xfusion.yaml 
+
+thor@jumphost ~$ cat python-deployment-xfusion.yaml # This command will output the existing yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -193,35 +201,45 @@ status:
   replicas: 1
   unavailableReplicas: 1
   updatedReplicas: 1
-thor@jumphost ~$ docker pull poroko/flask-app-demo
-bash: docker: command not found
-thor@jumphost ~$ docker
-bash: docker: command not found
+
+# Read My_reference
+# The image available is "poroko/flask-app-demo" , but serching the website and docker hub gave me the correct name of the image as "poroko/flask-demo-app".
+
 thor@jumphost ~$ vi python-deployment-xfusion.yaml 
+
 thor@jumphost ~$ kubectl apply -f python-deployment-xfusion.yaml 
 deployment.apps/python-deployment-xfusion configured
+
 thor@jumphost ~$ kubectl get po
 NAME                                         READY   STATUS              RESTARTS   AGE
 python-deployment-xfusion-5dcd4fff84-hj7bh   0/1     ImagePullBackOff    0          32m
 python-deployment-xfusion-74f98d699b-92tk7   0/1     ContainerCreating   0          8s
+
 thor@jumphost ~$ kubectl get po
 NAME                                         READY   STATUS    RESTARTS   AGE
 python-deployment-xfusion-74f98d699b-92tk7   1/1     Running   0          32s
+
 thor@jumphost ~$ kubectl get deployments.apps python-deployment-xfusion 
 NAME                        READY   UP-TO-DATE   AVAILABLE   AGE
 python-deployment-xfusion   1/1     1            1           33m
+
 thor@jumphost ~$ curl localhost:32345
 curl: (7) Failed to connect to localhost port 32345: Connection refused
+
 thor@jumphost ~$ kubectl get nodes -o wide
 NAME                      STATUS   ROLES           AGE   VERSION                     INTERNAL-IP   EXTERNAL-IP   OS-IMAGE       KERNEL-VERSION   CONTAINER-RUNTIME
 kodekloud-control-plane   Ready    control-plane   38m   v1.27.16-1+f5da3b717fc217   172.17.0.2    <none>        Ubuntu 23.10   5.4.0-1106-gcp   containerd://1.7.1-2-g8f682ed69
+
 thor@jumphost ~$ curl http://172.17.0.2:32345
 ^C
+
 thor@jumphost ~$ kubectl get svc
 NAME                     TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
 kubernetes               ClusterIP   10.96.0.1      <none>        443/TCP          39m
 python-service-xfusion   NodePort    10.96.48.121   <none>        8080:32345/TCP   37m
-thor@jumphost ~$ kubectl get svc -o yaml
+
+thor@jumphost ~$ kubectl get svc -o yaml # existing service yaml file
+
 apiVersion: v1
 items:
 - apiVersion: v1
@@ -286,23 +304,22 @@ items:
 kind: List
 metadata:
   resourceVersion: ""
-thor@jumphost ~$ ls
-python-deployment-xfusion.yaml
+
+
 thor@jumphost ~$ kubectl get svc -o yaml > python-service-xfusion.yaml 
+
 thor@jumphost ~$ ls
 python-deployment-xfusion.yaml  python-service-xfusion.yaml
+
 thor@jumphost ~$ vi python-service-xfusion.yaml 
+
 thor@jumphost ~$ kubectl apply -f python-service-xfusion.yaml 
 Warning: resource services/kubernetes is missing the kubectl.kubernetes.io/last-applied-configuration annotation which is required by kubectl apply. kubectl apply should only be used on resources created declaratively by either kubectl create --save-config or kubectl apply. The missing annotation will be patched automatically.
 service/kubernetes configured
 service/python-service-xfusion configured
-thor@jumphost ~$ curl http://172.17.0.2:32345
-^[[A^[[A^[[A^C
-thor@jumphost ~$ 
-thor@jumphost ~$ curl localhost:32345
-curl: (7) Failed to connect to localhost port 32345: Connection refused
-thor@jumphost ~$ curl 172.17.0.2:32345
-^C
+```
+
+```
 thor@jumphost ~$ history | cut -c 8-
 pwd
 ls
@@ -322,9 +339,6 @@ vi python-deployment-xfusion.yaml
 kubectl apply -f python-deployment-xfusion.yaml 
 kubectl get po
 kubectl get deployments.apps python-deployment-xfusion 
-curl localhost:32345
-kubectl get nodes -o wide
-curl http://172.17.0.2:32345
 kubectl get svc
 kubectl get svc -o yaml
 ls
@@ -332,13 +346,10 @@ kubectl get svc -o yaml > python-service-xfusion.yaml
 ls
 vi python-service-xfusion.yaml 
 kubectl apply -f python-service-xfusion.yaml 
-curl http://172.17.0.2:32345
-curl localhost:32345
-curl 172.17.0.2:32345
-history | cut -c 8-
-thor@jumphost ~$ ls
-python-deployment-xfusion.yaml  python-service-xfusion.yaml
-thor@jumphost ~$ cat python-deployment-xfusion.yaml 
+```
+
+### # python-deployment-xfusion.yaml 
+```
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -403,7 +414,10 @@ status:
   replicas: 1
   unavailableReplicas: 1
   updatedReplicas: 1
-thor@jumphost ~$ cat python-service-xfusion.yaml 
+```
+### # python-service-xfusion.yaml 
+
+```
 apiVersion: v1
 items:
 - apiVersion: v1
@@ -468,6 +482,82 @@ items:
 kind: List
 metadata:
   resourceVersion: ""
-thor@jumphost ~$ ls
-python-deployment-xfusion.yaml  python-service-xfusion.yaml
-thor@jumphost ~$ 
+```
+-------------------------------------------------------------------------------------------
+### Here's the elaborate pointwise format of how the errors were detected and the problem resolved :
+
+Task Overview
+
+- Deploy a Python application using a Kubernetes Deployment
+- Expose the application via a NodePort Service
+- Access the application using the NodePort
+
+Error and Detection
+
+- Error 1: Incorrect image name in the Deployment YAML file
+- Error 2: Incorrect target port in the Service YAML file
+- Detection method:
+    1. kubectl get pods showed that the Pod was not running or was crashing
+    2. kubectl get deployments showed that the Deployment was not successfully rolled out
+    3. kubectl get svc showed the Service configuration, but accessing the application via the NodePort failed
+
+Solution
+
+- Solution for Error 1:
+    1. Updated the image name in the Deployment YAML file to poroko/flask-demo-app
+    2. Applied the updated YAML file using kubectl apply -f deployment.yaml
+- Solution for Error 2:
+    1. Updated the targetPort in the Service YAML file to 5000 to match the container port
+    2. Applied the updated YAML file using kubectl apply -f service.yaml
+
+Verification
+
+- kubectl get pods showed that the Pod was running successfully
+- kubectl get deployments showed that the Deployment was successfully rolled out
+- Accessing the application via the NodePort 32345 was successful
+
+Methods Used
+
+- kubectl apply -f to apply the YAML files
+- kubectl get to verify the status of Pods, Deployments, and Services
+- kubectl patch could have been used to update the Service YAML file, but kubectl apply -f was used instead
+
+- Note :
+When accessing an application deployed on a Kubernetes Deployment using a NodePort Service, it's crucial to ensure that the targetPort in the NodePort Service YAML file matches the container port of the application.
+
+Alternatively, you could also phrase it as:
+
+To access an application deployed on a Kubernetes Deployment via a NodePort Service, verify that the targetPort specified in the NodePort Service YAML file aligns with the port exposed by the application container.
+
+Let's break it down:
+
+#### Why is this crucial?
+
+When you create a NodePort Service, Kubernetes opens a specific port on each node in the cluster, allowing external traffic to reach the application. However, the NodePort Service needs to know which port the application container is listening on.
+
+#### What happens if they don't match?
+
+If the targetPort in the NodePort Service YAML file doesn't match the container port of the application:
+
+- Traffic will be routed to the wrong port on the container, or
+- The application won't receive any traffic, resulting in connection errors or timeouts.
+
+*What does targetPort do?*
+
+The targetPort in the NodePort Service YAML file specifies the port on the container that the Service should send traffic to. It's like a mapping between the external NodePort and the internal container port.
+
+Example
+
+Suppose your application container listens on port 5000, and you want to expose it via a NodePort Service on port 32345. Your NodePort Service YAML file would look like this:
+```
+spec:
+  ports:
+  - nodePort: 32345
+    port: 8080
+    targetPort: 5000
+```
+In this example, traffic arriving on NodePort 32345 would be routed to port 8080 on the cluster IP, and then to port 5000 on the container.
+
+- Best practice
+
+To avoid issues, always ensure that the targetPort in the NodePort Service YAML file matches the port exposed by the application container. This guarantees that traffic is correctly routed to your application.
