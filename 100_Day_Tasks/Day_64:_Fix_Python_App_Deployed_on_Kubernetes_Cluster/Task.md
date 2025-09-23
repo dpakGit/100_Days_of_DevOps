@@ -203,7 +203,10 @@ status:
   updatedReplicas: 1
 
 # Read My_reference
-# The image available is "poroko/flask-app-demo" , but serching the website and docker hub gave me the correct name of the image as "poroko/flask-demo-app".
+# The image available is "poroko/flask-app-demo" , but serching the website and docker hub gave me the
+# correct name of the image as "poroko/flask-demo-app".
+# Refer the following site : https://hub.docker.com/r/poroko/flask-demo-app
+
 
 thor@jumphost ~$ vi python-deployment-xfusion.yaml 
 
