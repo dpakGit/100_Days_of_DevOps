@@ -321,7 +321,11 @@ Warning: resource services/kubernetes is missing the kubectl.kubernetes.io/last-
 service/kubernetes configured
 service/python-service-xfusion configured
 ```
+Accessed the page :
+<img width="1920" height="1080" alt="Screenshot (243)" src="https://github.com/user-attachments/assets/a1f1d3e0-fa05-47ef-97d5-b1e24e76c077" />
 
+
+### History
 ```
 thor@jumphost ~$ history | cut -c 8-
 pwd
