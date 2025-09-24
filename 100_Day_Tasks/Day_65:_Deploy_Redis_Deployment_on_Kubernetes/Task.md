@@ -71,6 +71,7 @@ The task requires creating a Redis deployment with the specified configuration a
 
 By following these requirements, the Redis deployment will be created with the specified configuration and settings, and will be ready for use.
 
+#### Note : Decouple application configuration from code, making it easier to manage and update values without changing the code.
 
 
 ### What I Did
