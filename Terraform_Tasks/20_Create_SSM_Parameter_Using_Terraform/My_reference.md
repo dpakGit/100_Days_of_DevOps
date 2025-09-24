@@ -41,7 +41,7 @@ Using SSM parameters provides several benefits, including:
 In the context of the original task, the SSM parameter datacenter-ssm-parameter with value datacenter-value can be used as a configuration value for an application or service, making it easy to manage and update the value without modifying the code.
 
 
-### Yes, you can draw similarities between AWS SSM parameters and Kubernetes ConfigMaps. Both serve the purpose of storing and managing configuration data that can be used by applications.
+### Yes, you can draw similarities between AWS `SSM parameters` and `Kubernetes ConfigMaps`. Both serve the purpose of storing and managing configuration data that can be used by applications.
 
 Similarities:
 
@@ -57,11 +57,11 @@ Differences:
 
 Comparison:
 
-| Feature | AWS SSM Parameters | Kubernetes ConfigMaps |
-| --- | --- | --- |
-| Purpose | Store and manage configuration data | Store and manage configuration data |
-| Scope | AWS account-wide | Kubernetes cluster-wide |
-| Security | Built-in encryption and access controls | Relies on Kubernetes security features |
-| Integration | Tightly integrated with AWS services | Native Kubernetes resource |
+| Feature      | AWS SSM Parameters                      | Kubernetes ConfigMaps                   |
+| ---          | ---                                     | ---                                     |
+| Purpose      | Store and manage configuration data     | Store and manage configuration data     |
+| Scope        | AWS account-wide                        | Kubernetes cluster-wide                 |
+| Security     | Built-in encryption and access controls | Relies on Kubernetes security features  |
+| Integration  | Tightly integrated with AWS services    | Native Kubernetes resource              |
 
 While there are similarities between SSM parameters and ConfigMaps, they serve different purposes and are designed for specific use cases. SSM parameters are ideal for managing configuration data across multiple AWS services, while ConfigMaps are perfect for managing configuration data within a Kubernetes cluster.
