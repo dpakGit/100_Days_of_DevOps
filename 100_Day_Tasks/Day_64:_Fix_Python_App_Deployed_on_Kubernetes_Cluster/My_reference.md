@@ -754,3 +754,195 @@ What can you do?
 You don't need to take any action. The warning message indicates that the annotation will be patched automatically, and the kubectl apply command will continue to work as expected.
 
 If you want to avoid seeing this warning in the future, you can recreate the resources using kubectl apply instead of kubectl create, or use kubectl create --save-config when creating resources imperatively.
+
+
+### When a Kubernetes Deployment needs to use a Docker image from a private repository or an image that requires authentication, you can use a Kubernetes object called a Secret to store the credentials.
+
+Solution:
+
+1. Create a Secret object with the Docker registry credentials.
+2. Reference the Secret in the Deployment's imagePullSecrets field.
+
+Steps:
+
+1. Create a Secret object with the Docker registry credentials:
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: docker-registry-credentials
+type: kubernetes.io/dockerconfigjson
+data:
+  dockerconfigjson: <base64 encoded docker config json>
+
+You can create the Secret object using the kubectl create secret command:
+
+bash
+kubectl create secret docker-registry docker-registry-credentials \
+  --docker-username=<username> \
+  --docker-password=<password> \
+  --docker-email=<email>
+
+2. Reference the Secret in the Deployment's imagePullSecrets field:
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deployment
+spec:
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: my-container
+        image: <private-repo-image-name>
+      imagePullSecrets:
+      - name: docker-registry-credentials
+
+By referencing the Secret object in the imagePullSecrets field, Kubernetes will use the credentials stored in the Secret to authenticate with the Docker registry and pull the image.
+
+Kubernetes Object: Secret (specifically, a kubernetes.io/dockerconfigjson type Secret)
+
+This solution allows you to securely store your Docker registry credentials and use them to authenticate with the registry when pulling images for your Kubernetes Deployments.
+
+
+### No, the above YAML snippets are not complete YAML files. They are fragments that need to be combined into a complete YAML file.
+
+Here's an example of a complete YAML file for creating a Secret:
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: docker-registry-credentials
+type: kubernetes.io/dockerconfigjson
+data:
+  dockerconfigjson: <base64 encoded docker config json>
+
+And here's an example of a complete YAML file for creating a Deployment that references the Secret:
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: my-container
+        image: <private-repo-image-name>
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+      - name: docker-registry-credentials
+
+Make sure to replace <base64 encoded docker config json> and <private-repo-image-name> with the actual values for your use case.
+
+You can also create these resources using separate YAML files, or combine them into a single YAML file with multiple documents separated by ---. For example:
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: docker-registry-credentials
+type: kubernetes.io/dockerconfigjson
+data:
+  dockerconfigjson: <base64 encoded docker config json>
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: my-container
+        image: <private-repo-image-name>
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+      - name: docker-registry-credentials
+
+
+
+### docker-registry-credentials is the name given to a Kubernetes Secret that stores Docker registry credentials. This Secret is used to authenticate with a Docker registry, allowing Kubernetes to pull images from the registry.
+
+The name docker-registry-credentials is arbitrary, and you can choose any name that makes sense for your use case. However, it's common to use a name that clearly indicates the purpose of the Secret.
+
+The form of the Secret can vary depending on the type of Docker registry you're using. Here are a few examples:
+
+1. Docker Hub:
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: docker-registry-credentials
+type: kubernetes.io/dockerconfigjson
+data:
+  dockerconfigjson: <base64 encoded docker config json>
+
+The dockerconfigjson field contains a base64-encoded JSON object with the following format:
+
+{
+  "auths": {
+    "https://index.docker.io/v1/": {
+      "username": "your-docker-hub-username",
+      "password": "your-docker-hub-password",
+      "email": "your-docker-hub-email",
+      "auth": "base64 encoded username:password"
+    }
+  }
+}
+
+2. Private Docker Registry:
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: docker-registry-credentials
+type: kubernetes.io/dockerconfigjson
+data:
+  dockerconfigjson: <base64 encoded docker config json>
+
+The dockerconfigjson field contains a base64-encoded JSON object with the following format:
+
+{
+  "auths": {
+    "your-private-registry-url": {
+      "username": "your-registry-username",
+      "password": "your-registry-password",
+      "email": "your-registry-email",
+      "auth": "base64 encoded username:password"
+    }
+  }
+}
+
+You can create the Secret using the kubectl create secret command:
+
+bash
+kubectl create secret docker-registry docker-registry-credentials \
+  --docker-username=<username> \
+  --docker-password=<password> \
+  --docker-email=<email> \
+  --docker-server=<registry-url>
+
+Replace <username>, <password>, <email>, and <registry-url> with the actual values for your Docker registry.
