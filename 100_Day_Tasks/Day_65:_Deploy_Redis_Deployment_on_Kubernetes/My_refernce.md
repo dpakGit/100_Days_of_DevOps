@@ -288,3 +288,36 @@ You might consider removing the maxmemory-policy allkeys-lru part if:
 2. You want Redis to prevent new writes when it reaches its maxmemory limit, rather than evicting keys.
 
 However, in most cases, setting a suitable maxmemory-policy helps ensure Redis operates efficiently and effectively, even under memory constraints.
+
+Q: Is it that in this task we are also limiting how much memory the redis container can consume using config maps ?
+
+Ans: 
+
+In this task, we're setting the maxmemory limit for Redis using a ConfigMap, which controls how much memory Redis can use for its data storage.
+
+However, this maxmemory setting only limits the amount of memory Redis uses for its data, not the overall memory usage of the Redis container.
+
+Container memory limits
+
+To limit the overall memory usage of the Redis container, you would typically use Kubernetes' built-in resource management features, such as:
+
+1. Resource requests: Specify the amount of memory (and CPU) the container requires.
+2. Resource limits: Specify the maximum amount of memory (and CPU) the container can use.
+
+In the original task, we specified a CPU request, but not a memory limit. To limit the container's memory usage, you would add a resources section with limits and specify the memory limit, like this:
+resources:
+  requests:
+    cpu: 1
+  limits:
+    memory: 4Mi
+
+This sets a memory limit of 4Mi (mebibytes) for the Redis container.
+
+ConfigMap vs. container memory limits
+
+The maxmemory setting in the ConfigMap and the container memory limit serve different purposes:
+
+1. maxmemory (ConfigMap): Limits Redis data storage memory usage.
+2. Container memory limit (Kubernetes resource management): Limits the overall memory usage of the Redis container.
+
+By setting both, you can ensure Redis operates within its designated memory limits and prevent it from consuming excessive resources.
