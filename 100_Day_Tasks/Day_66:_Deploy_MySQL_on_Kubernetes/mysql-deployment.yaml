@@ -1,4 +1,4 @@
-# PersistentVolume
+# PersistentVolume: mysql-pv
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -13,7 +13,7 @@ spec:
     path: "/mnt/data"
 
 ---
-# PersistentVolumeClaim
+# PersistentVolumeClaim: mysql-pv-claim
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -61,7 +61,7 @@ data:
   database: a29kZWtsb3VkX2RiNg==
 
 ---
-# Deployment
+# Deployment: mysql-deployment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -111,7 +111,7 @@ spec:
           claimName: mysql-pv-claim
 
 ---
-# Service
+# Service: mysql
 apiVersion: v1
 kind: Service
 metadata:
