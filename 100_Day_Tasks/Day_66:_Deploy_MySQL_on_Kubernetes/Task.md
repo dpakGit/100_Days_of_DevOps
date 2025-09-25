@@ -271,3 +271,13 @@ spec:
     nodePort: 30007
   type: NodePort
 ```
+
+
+This file combines the PersistentVolume, PersistentVolumeClaim, all three Secret objects, the Deployment, and the Service into a single manifest, which you can apply with just one command: kubectl apply -f mysql-deployment.yaml.
+
+In the multi-document YAML file. Each Kubernetes object (like the PersistentVolume, PersistentVolumeClaim, Secrets, Deployment, and Service) is separated by the --- separator.
+
+This is a common and efficient practice in Kubernetes because it allows you to create all the necessary resources for an application with a single kubectl apply -f <filename> command, instead of applying multiple separate files.
+
+The only changes I've made are correcting the base64-encoded values to match the required secret data. I also replaced the local volume type with hostPath for simplicity, as local volumes often require a node name, and this makes the file more universally usable.(It is refering to another yaml file provided by me).
+
