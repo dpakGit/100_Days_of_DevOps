@@ -88,3 +88,5 @@ Type: A NodePort service, which makes it accessible on a specific port on every 
 Ports: Listens on port 80 (standard HTTP) and forwards traffic to the containers' port 80.
 
 NodePort: The service is exposed on nodePort: 30009, allowing you to access the application via any node's IP address at this port.
+
+This breakdown provides a detailed, high-level overview of the entire deployment.
