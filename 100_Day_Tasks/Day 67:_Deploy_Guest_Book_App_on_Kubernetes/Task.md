@@ -54,7 +54,57 @@ You can use any labels as per your choice.
 
 Note: The kubectl utility on jump_host has been configured to work with the kubernetes cluster.
 
+------------------------------------------------
 
+### Here's an elaboration of the requirements:
+
+1. Back-end Tier:
+
+- Redis Master:
+    - Create a Deployment named redis-master with:
+        - 1 replica
+        - Container name: master-redis-xfusion
+        - Image: redis
+        - Resource requests: CPU - 100m, Memory - 100Mi
+        - Port: 6379 (Redis default port)
+    - Create a Service named redis-master with:
+        - Port: 6379
+        - TargetPort: 6379
+- Redis Slave:
+    - Create a Deployment named redis-slave with:
+        - 2 replicas
+        - Container name: slave-redis-xfusion
+        - Image: gcr.io/google_samples/gb-redisslave:v3
+        - Resource requests: CPU - 100m, Memory - 100Mi
+        - Environment variable: GET_HOSTS_FROM with value dns
+        - Port: 6379 (Redis default port)
+    - Create a Service named redis-slave with:
+        - Port: 6379
+
+2. Front-end Tier:
+
+- Frontend Application:
+    - Create a Deployment named frontend with:
+        - 3 replicas
+        - Container name: php-redis-xfusion
+        - Image: gcr.io/google-samples/gb-frontend@sha256:a908df8486ff66f2c4daa0d3d8a2fa09846a1fc8efd65649c0109695c7c5cbff
+        - Resource requests: CPU - 100m, Memory - 100Mi
+        - Environment variable: GET_HOSTS_FROM with value dns
+        - Port: 80
+    - Create a Service named frontend with:
+        - Type: NodePort
+        - Port: 80
+        - NodePort: 30009
+
+3. Configurations:
+
+- Replicas Count: Specify the number of replicas for each deployment as mentioned above.
+- Container Names: Use the specified container names for each deployment.
+- Images: Use the specified images for each deployment.
+- Resource Requests: Specify the resource requests (CPU and Memory) for each deployment as mentioned above.
+- Environment Variables: Define the environment variables as specified above.
+- Port Configurations: Use the specified ports for each service and deployment.
+- NodePort Type: Use NodePort type for the Frontend service with the specified nodePort.
 
 
 ### What I Did
