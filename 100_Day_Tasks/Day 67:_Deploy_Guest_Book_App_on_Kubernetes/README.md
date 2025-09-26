@@ -1,4 +1,6 @@
-Guestbook Application: Architectural BreakdownHere is a visual representation of the application's two-tier architecture:
+**Guestbook Application: Architectural BreakdownHere is a visual representation of the application's two-tier architecture:**
+
+
 
 ```
 +----------------+          +-------------------+          +-------------------+
