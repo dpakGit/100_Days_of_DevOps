@@ -135,15 +135,29 @@ history | cut -c 8-
 ### # guestbook-deployment.yaml
 
 click on the following link to copy the yaml : https://g.co/gemini/share/6a08e695ecc8
+
 ```
-# Redis Master Deployment
+#
+# Guestbook Application Kubernetes Manifests
+# This single file contains all the necessary Kubernetes objects to deploy the guestbook application.
+# It includes the Redis master and slave instances for the back-end, and the PHP front-end.
+# The documents are separated by a '---' marker for easy, single-command deployment.
+#
+
+---
+#
+# 1. Redis Master Deployment
+# This deployment creates and manages a single replica of the Redis master database.
+#
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: redis-master
 spec:
+  # The number of desired pods to maintain.
   replicas: 1
   selector:
+    # This selector links the deployment to the pods it manages.
     matchLabels:
       app: redis-master
   template:
@@ -153,33 +167,49 @@ spec:
     spec:
       containers:
       - name: master-redis-xfusion
+        # Uses the official Redis image.
         image: redis
         resources:
           requests:
             cpu: 100m
             memory: 100Mi
+        # Exposes the default Redis port.
         ports:
         - containerPort: 6379
+
 ---
-# Redis Master Service
+#
+# 2. Redis Master Service
+# This service creates a stable network endpoint for the Redis master pod.
+# It allows other pods, like the Redis slaves, to find and connect to it.
+#
 apiVersion: v1
 kind: Service
 metadata:
   name: redis-master
 spec:
+  # This selector links the service to the Redis master pod.
   selector:
     app: redis-master
   ports:
   - name: redis
+    # The port on which the service will listen.
     port: 6379
+    # The port on the container to which traffic will be forwarded.
     targetPort: 6379
+
 ---
-# Redis Slave Deployment
+#
+# 3. Redis Slave Deployment
+# This deployment creates and manages two replicas of the Redis slave instances.
+# They connect to the Redis master to replicate data.
+#
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: redis-slave
 spec:
+  # Specifies two replicas for redundancy.
   replicas: 2
   selector:
     matchLabels:
@@ -191,36 +221,52 @@ spec:
     spec:
       containers:
       - name: slave-redis-xfusion
+        # Uses the specific Google-provided image for the Redis slave.
         image: gcr.io/google_samples/gb-redisslave:v3
         resources:
           requests:
             cpu: 100m
             memory: 100Mi
+        # This environment variable tells the slaves how to find the master (via DNS).
         env:
         - name: GET_HOSTS_FROM
           value: dns
         ports:
         - containerPort: 6379
+
 ---
-# Redis Slave Service
+#
+# 4. Redis Slave Service
+# This service provides a stable network endpoint for the Redis slave pods.
+# The frontend pods will use this service to connect to the slaves.
+#
 apiVersion: v1
 kind: Service
 metadata:
   name: redis-slave
 spec:
+  # This selector links the service to the Redis slave pods.
   selector:
     app: redis-slave
   ports:
   - name: redis
+    # The port on which the service will listen.
     port: 6379
+    # The port on the container to which traffic will be forwarded.
     targetPort: 6379
+
 ---
-# Frontend Deployment
+#
+# 5. Frontend Deployment
+# This deployment manages the front-end guestbook application.
+# It creates three replicas for high availability and load balancing.
+#
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend
 spec:
+  # Specifies three replicas for the front-end.
   replicas: 3
   selector:
     matchLabels:
@@ -232,30 +278,42 @@ spec:
     spec:
       containers:
       - name: php-redis-xfusion
+        # Uses the specific Google-provided image for the front-end.
         image: gcr.io/google-samples/gb-frontend@sha256:a908df8486ff66f2c4daa0d3d8a2fa09846a1fc8efd65649c0109695c7c5cbff
         resources:
           requests:
             cpu: 100m
             memory: 100Mi
+        # This environment variable tells the front-end where to find the Redis slaves.
         env:
         - name: GET_HOSTS_FROM
           value: dns
         ports:
         - containerPort: 80
+
 ---
-# Frontend Service
+#
+# 6. Frontend Service
+# This service exposes the front-end application to the outside world.
+# A NodePort service makes the application accessible on a specific port on each node.
+#
 apiVersion: v1
 kind: Service
 metadata:
   name: frontend
 spec:
+  # This service type exposes the service on each node's IP at a static port.
   type: NodePort
+  # This selector links the service to the frontend pods.
   selector:
     app: frontend
   ports:
   - name: http
+    # The port on which the service will listen (inside the cluster).
     port: 80
+    # The port on the container to which traffic will be forwarded.
     targetPort: 80
+    # The port on the node's IP that is used to access the service.
     nodePort: 30009
 ```
 
