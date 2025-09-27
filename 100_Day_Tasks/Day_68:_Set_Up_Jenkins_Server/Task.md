@@ -70,4 +70,4 @@ sudo yum install jenkins -y
 cat /var/lib/jenkins/secrets/initialAdminPassword
 ```
 
-history | cut -c 8-
+
