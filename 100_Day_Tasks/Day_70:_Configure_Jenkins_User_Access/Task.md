@@ -4,13 +4,13 @@ The Nautilus team is integrating Jenkins into their CI/CD pipelines. After setti
 
 1. Click on the Jenkins button on the top bar to access the Jenkins UI. Login with username admin and password Adm!n321.
 
-2. Create a jenkins user named jim with the passwordYchZHRcLkL. Their full name should match Jim.
+2. Create a jenkins user named anita with the passwordTmPcZjtRQx. Their full name should match Anita.
 
-3. Utilize the Project-based Matrix Authorization Strategy to assign overall read permission to the jim user.
+3. Utilize the Project-based Matrix Authorization Strategy to assign overall read permission to the anita user.
 
 4. Remove all permissions for Anonymous users (if any) ensuring that the admin user retains overall Administer permissions.
 
-5. For the existing job, grant jim user only read permissions, disregarding other permissions such as Agent, SCM etc.
+5. For the existing job, grant anita user only read permissions, disregarding other permissions such as Agent, SCM etc.
 
 Note:
 
