@@ -26,21 +26,21 @@ Table of Contents
 
 - Prerequisites
 
-- Step-1-install-ssh-plugins
+- Step-1 Install-ssh-plugins
 
-- Step-2-create-remote-host-credentials
+- Step-2 Create-remote-host-credentials
 
-- Step-3-configure-ssh-remote-host-connection
+- Step-3 Configure-ssh-remote-host-connection
 
-- Step-4-create-a-jenkins-job
+- Step-4 Create-a-jenkins-job
 
-- Step-5-add-a-string-parameter
+- Step-5 Add-a-string-parameter
 
-- Step-6-connect-to-remote-host-and-run-shell-command
+- Step-6 Connect-to-remote-host-and-run-shell-command
 
-- Step-7-verify-nginx-installation
+- Step-7 Verify-nginx-installation
 
-- Step-8-build-and-test-the-job
+- Step-8 Build-and-test-the-job
 
 Prerequisites
 
