@@ -95,6 +95,10 @@ Step 3: Configure SSH Remote Host Connection and Checking the Connection
   
 4. Scroll down and click on the "Check Connection" button to confirm connection is established
 
+
+![Uploading Screenshot (310).png…]()
+
+
 5. Click on "Save"
 
 Step 4: Create a Jenkins Job
