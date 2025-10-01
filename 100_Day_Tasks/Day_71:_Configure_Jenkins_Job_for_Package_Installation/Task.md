@@ -18,11 +18,6 @@ Note:
 3. Capture screenshots of your configuration for documentation and review purposes. Alternatively, use screen recording software like loom.com for comprehensive documentation and sharing.
 
 
-
-https://www.youtube.com/watch?v=Abxm13_i8A4
-
-https://www.youtube.com/watch?v=_coKow-BTbI
-
 ### What I Did
 
 #### Installing Packages on Remote Machines using Jenkins
