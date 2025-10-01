@@ -61,10 +61,10 @@ Step 1: Install SSH Plugins (Prerequisite)
     - SSH Build Agents
     - SSH Agents # This plugin allow you to provide SSH credentials to build via a ssh-agent in Jenkins
 
-
+<br><br>
   <img width="1920" height="1080" alt="Screenshot (299)" src="https://github.com/user-attachments/assets/3e3ed5bb-f831-4f6e-b22c-702223b91b53" />
 
-
+<br><br>
 Step 2: Create Remote Host Credentials on Jenkins Server
 
 1. Go to Manage Jenkins > Credentials > System > Global credentials
@@ -97,14 +97,18 @@ Step 3: Configure SSH Remote Host Connection and Checking the Connection
     - Credentials: Select the credential name from the dropdown arrow (e.g., natasha)
 
 <br><br>
+
 <img width="1920" height="1080" alt="Screenshot (311)" src="https://github.com/user-attachments/assets/cfee0b18-6d02-4369-8e6e-0b3165f3239c" />
+
 <br><br>
   
 4. Scroll down and click on the "Check Connection" button to confirm connection is established
 
-
+<br><br>
 
 <img width="1920" height="1080" alt="Screenshot (310)" src="https://github.com/user-attachments/assets/eb67d9a1-3f1b-4f50-9bd9-caeb3c26a917" />
+
+<br><br>
 
 Confirm with the message - "Successful connection"
 
@@ -136,7 +140,11 @@ Step 6: Connect to Remote Host and Run Shell Command
 
 5. Save
 
+<br><br>
+
 <img width="1920" height="1080" alt="Screenshot (312)" src="https://github.com/user-attachments/assets/5167dc0b-1286-405a-a060-83fae350dbe9" />
+
+<br><br>
 
 Step 7: Verify Nginx Installation
 
@@ -144,36 +152,63 @@ Step 7: Verify Nginx Installation
 2. SSH to the storage server (ssh natasha@172.16.238.15)
 3. Run the command: systemctl status nginx (this will give an error as nginx is still not installed)
 
+<br><br>
+
 <img width="1920" height="1080" alt="Screenshot (317)" src="https://github.com/user-attachments/assets/108419b0-062b-4661-9c5c-5070e3d3b997" />
+
+<br><br>
 
 Step 8: Build and Test the Job
 
 1. Go back to the Jenkins Job and click on "Build with Parameters"
 2. Remove the default package name and input nginx
+
+<br><br>
+
 <img width="1920" height="1080" alt="Screenshot (309)" src="https://github.com/user-attachments/assets/59dd702c-7332-4c3e-a1d1-a6cc0c4eda5f" />
--
+
+<br><br>
+
 - In place of package_name write nginx 
 -
 3. Click on Build
 4. Once the build is successful, check the logs for confirmation   
 
+<br><br>
 <img width="1920" height="1080" alt="Screenshot (316)" src="https://github.com/user-attachments/assets/2070ce1c-8a6e-4a60-8704-bba04b43761d" />
+
+<br><br>
 
 <img width="1920" height="1080" alt="Screenshot (315)" src="https://github.com/user-attachments/assets/a727db72-0f78-460e-a95a-a3544a811224" />
 
+<br><br>
+
 5. Go back to the jumphost terminal and run: systemctl status nginx (this will show nginx is installed)
 6. Run: systemctl start nginx and systemctl status nginx (this will show nginx is "active")
+
+<br><br>
 <img width="1920" height="1080" alt="Screenshot (319)" src="https://github.com/user-attachments/assets/4ade698d-03fc-4343-aa33-41cc79f1e094" />
 
+<br><br>
 
 <img width="1920" height="1080" alt="Screenshot (330)" src="https://github.com/user-attachments/assets/e146b1c4-1456-4983-9f0b-46e0e914b659" />
 
+<br><br>
+
 7. Similarly build once more with "httpd" as the package
 
+<br><br>
 
 <img width="1920" height="1080" alt="Screenshot (328)" src="https://github.com/user-attachments/assets/c5d317c0-8d06-4a55-a7f5-a4a567198b45" />
 
+<br><br>
+
 <img width="1920" height="1080" alt="Screenshot (321)" src="https://github.com/user-attachments/assets/7717e3e4-fb90-4169-b36e-8f63a07b4fb3" />
+
+<br><br>
+
 Following Image shows that httpd is installed
+<br><br>
+
 <img width="1920" height="1080" alt="Screenshot (322)" src="https://github.com/user-attachments/assets/9ce917c2-0866-4cd1-adf4-91c62fc9d829" />
 
