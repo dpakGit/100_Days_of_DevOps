@@ -79,6 +79,8 @@ Step 2: Create Remote Host Credentials on Jenkins Server
 
 <img width="1920" height="1080" alt="Screenshot (301)" src="https://github.com/user-attachments/assets/4abd9f34-be5f-4ea5-bdb0-89e2e740aad2" />
 
+<br><br>
+
 <img width="1920" height="1080" alt="Screenshot (302)" src="https://github.com/user-attachments/assets/434472b6-b898-49f1-a9b8-5c0603dcd5bd" />
 
 Step 3: Configure SSH Remote Host Connection and Checking the Connection
