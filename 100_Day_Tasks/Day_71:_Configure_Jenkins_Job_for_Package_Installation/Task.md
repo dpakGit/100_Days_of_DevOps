@@ -17,12 +17,109 @@ Note:
 
 3. Capture screenshots of your configuration for documentation and review purposes. Alternatively, use screen recording software like loom.com for comprehensive documentation and sharing.
 
-### What I Did
+
 
 https://www.youtube.com/watch?v=Abxm13_i8A4
 
 https://www.youtube.com/watch?v=_coKow-BTbI
 
+### What I Did
+
+#### Installing Packages on Remote Machines using Jenkins
+
+Table of Contents
+
+- Prerequisites
+
+- Step-1-install-ssh-plugins
+
+- Step-2-create-remote-host-credentials
+
+- Step-3-configure-ssh-remote-host-connection
+
+- Step-4-create-a-jenkins-job
+
+- Step-5-add-a-string-parameter
+
+- Step-6-connect-to-remote-host-and-run-shell-command
+
+- Step-7-verify-nginx-installation
+
+- Step-8-build-and-test-the-job
+
+Prerequisites
+
+- Jenkins installed and running
+- SSH access to remote machine
+
+Step 1: Install SSH Plugins (Prerequisite)
+
+1. Go to Dashboard > Manage Jenkins > Plugins > Available Plugins
+2. Search for "SSH" and select the following plugins:
+    - SSH
+    - SSH Credentials
+    - SSH Build Agents
+    - SSH Agents
+
+Step 2: Create Remote Host Credentials
+
+1. Go to Manage Jenkins > Credentials > System > Global credentials
+2. Click Add Credentials
+3. Select Username with password as the credential type
+4. Fill in the details:
+    - Username: Enter the username for your storage server (e.g., natasha)
+    - Password: Enter the password for the username
+    - ID: Give a unique ID to the credential (optional but recommended)
+5. Click OK to save the credential
+
+Step 3: Configure SSH Remote Host Connection
+
+1. Manage Jenkins > System
+2. Scroll down to "SSH remote hosts"
+3. Click on Add
+    - Host Name: (link unavailable)
+    - Port: 22
+    - Credentials: Select the credential name from the dropdown arrow (e.g., natasha)
+4. Scroll down and click on the "Check Connection" button to confirm connection is established
+5. Click on "Save"
+
+Step 4: Create a Jenkins Job
+
+1. Go to your Jenkins dashboard and click on New Item
+2. Choose Freestyle project and name your job (e.g., "install-packages")
+3. Click OK to create the job
+
+Step 5: Add a String Parameter
+
+1. Go to the Job > Configure
+2. Check the "This Project is Parameterized" box
+3. Select "String Parameter"
+    - Name: PACKAGE
+    - Default value: Default
+4. Save
+
+Step 6: Connect to Remote Host and Run Shell Command
+
+1. Go to the Job > Configure > Build Steps
+2. Select "Execute shell script on remote host using ssh" option
+    - SSH site: natasha@(link unavailable)
+    - Command: echo 'Bl@KW' | sudo -S yum install -y $PACKAGE
+3. Save
+
+Step 7: Verify Nginx Installation
+
+1. Go to the jumphost terminal
+2. SSH to the storage server (ssh natasha@172.16.238.15)
+3. Run the command: systemctl status nginx (this will give an error as nginx is still not installed)
+
+Step 8: Build and Test the Job
+
+1. Go back to the Jenkins Job and click on "Build with Parameters"
+2. Remove the default package name and input nginx
+3. Click on Build
+4. Once the build is successful, check the logs for confirmation
+5. Go back to the jumphost terminal and run: systemctl status nginx (this will show nginx is installed)
+6. Run: systemctl start nginx and systemctl status nginx (this will show nginx is "active")
 
 
 #### Console Output
