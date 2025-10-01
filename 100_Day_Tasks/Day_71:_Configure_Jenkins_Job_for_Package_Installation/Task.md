@@ -96,8 +96,10 @@ Step 3: Configure SSH Remote Host Connection and Checking the Connection
 4. Scroll down and click on the "Check Connection" button to confirm connection is established
 
 
-![Uploading Screenshot (310).png…]()
 
+<img width="1920" height="1080" alt="Screenshot (310)" src="https://github.com/user-attachments/assets/eb67d9a1-3f1b-4f50-9bd9-caeb3c26a917" />
+
+Confirm with the message - "Successful connection"
 
 5. Click on "Save"
 
