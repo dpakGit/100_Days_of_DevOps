@@ -59,9 +59,13 @@ Step 1: Install SSH Plugins (Prerequisite)
     - SSH
     - SSH Credentials
     - SSH Build Agents
-    - SSH Agents
+    - SSH Agents # This plugin allow you to provide SSH credentials to build via a ssh-agent in Jenkins
 
-Step 2: Create Remote Host Credentials
+
+  <img width="1920" height="1080" alt="Screenshot (299)" src="https://github.com/user-attachments/assets/3e3ed5bb-f831-4f6e-b22c-702223b91b53" />
+
+
+Step 2: Create Remote Host Credentials on Jenkins Server
 
 1. Go to Manage Jenkins > Credentials > System > Global credentials
 2. Click Add Credentials
@@ -70,17 +74,27 @@ Step 2: Create Remote Host Credentials
     - Username: Enter the username for your storage server (e.g., natasha)
     - Password: Enter the password for the username
     - ID: Give a unique ID to the credential (optional but recommended)
+
 5. Click OK to save the credential
 
-Step 3: Configure SSH Remote Host Connection
+<img width="1920" height="1080" alt="Screenshot (301)" src="https://github.com/user-attachments/assets/4abd9f34-be5f-4ea5-bdb0-89e2e740aad2" />
+
+<img width="1920" height="1080" alt="Screenshot (302)" src="https://github.com/user-attachments/assets/434472b6-b898-49f1-a9b8-5c0603dcd5bd" />
+
+Step 3: Configure SSH Remote Host Connection and Checking the Connection
 
 1. Manage Jenkins > System
 2. Scroll down to "SSH remote hosts"
 3. Click on Add
-    - Host Name: (link unavailable)
+    - Host Name: ststor01.stratos.xfusioncorp.com
     - Port: 22
     - Credentials: Select the credential name from the dropdown arrow (e.g., natasha)
+
+   <img width="1920" height="1080" alt="Screenshot (311)" src="https://github.com/user-attachments/assets/cfee0b18-6d02-4369-8e6e-0b3165f3239c" />
+
+  
 4. Scroll down and click on the "Check Connection" button to confirm connection is established
+
 5. Click on "Save"
 
 Step 4: Create a Jenkins Job
@@ -102,9 +116,14 @@ Step 6: Connect to Remote Host and Run Shell Command
 
 1. Go to the Job > Configure > Build Steps
 2. Select "Execute shell script on remote host using ssh" option
-    - SSH site: natasha@(link unavailable)
-    - Command: echo 'Bl@KW' | sudo -S yum install -y $PACKAGE
-3. Save
+
+3.- SSH site: "natasha@ststor01.stratos.xfusioncorp.com:22"
+
+- Command: echo 'Bl@KW' | sudo -S yum install -y $PACKAGE
+
+5. Save
+
+<img width="1920" height="1080" alt="Screenshot (312)" src="https://github.com/user-attachments/assets/5167dc0b-1286-405a-a060-83fae350dbe9" />
 
 Step 7: Verify Nginx Installation
 
@@ -112,105 +131,34 @@ Step 7: Verify Nginx Installation
 2. SSH to the storage server (ssh natasha@172.16.238.15)
 3. Run the command: systemctl status nginx (this will give an error as nginx is still not installed)
 
+<img width="1920" height="1080" alt="Screenshot (317)" src="https://github.com/user-attachments/assets/108419b0-062b-4661-9c5c-5070e3d3b997" />
+
 Step 8: Build and Test the Job
 
 1. Go back to the Jenkins Job and click on "Build with Parameters"
 2. Remove the default package name and input nginx
+<img width="1920" height="1080" alt="Screenshot (309)" src="https://github.com/user-attachments/assets/59dd702c-7332-4c3e-a1d1-a6cc0c4eda5f" />
+-# In place of package_name write nginx 
 3. Click on Build
-4. Once the build is successful, check the logs for confirmation
+4. Once the build is successful, check the logs for confirmation   
+
+<img width="1920" height="1080" alt="Screenshot (316)" src="https://github.com/user-attachments/assets/2070ce1c-8a6e-4a60-8704-bba04b43761d" />
+
+<img width="1920" height="1080" alt="Screenshot (315)" src="https://github.com/user-attachments/assets/a727db72-0f78-460e-a95a-a3544a811224" />
+
 5. Go back to the jumphost terminal and run: systemctl status nginx (this will show nginx is installed)
 6. Run: systemctl start nginx and systemctl status nginx (this will show nginx is "active")
+<img width="1920" height="1080" alt="Screenshot (319)" src="https://github.com/user-attachments/assets/4ade698d-03fc-4343-aa33-41cc79f1e094" />
 
 
-#### Console Output
-```
-Started by user admin
+<img width="1920" height="1080" alt="Screenshot (330)" src="https://github.com/user-attachments/assets/e146b1c4-1456-4983-9f0b-46e0e914b659" />
 
-Running as SYSTEM
-Building in workspace /var/lib/jenkins/workspace/install-packages
-[SSH] script:
-PACKAGE="nginx"
+7. Similarly build once more with "httpd" as the package
 
-echo 'Bl@kW' | sudo -S yum install -y $PACKAGE
 
-[SSH] executing...
-[sudo] password for natasha: CentOS Stream 9 - BaseOS                         11 kB/s | 6.4 kB     00:00    
-CentOS Stream 9 - BaseOS                         16 MB/s | 8.8 MB     00:00    
-CentOS Stream 9 - AppStream                      49 kB/s | 6.5 kB     00:00    
+<img width="1920" height="1080" alt="Screenshot (328)" src="https://github.com/user-attachments/assets/c5d317c0-8d06-4a55-a7f5-a4a567198b45" />
 
-CentOS Stream 9 - AppStream                     1.8 MB/s |  25 MB     00:13    
+<img width="1920" height="1080" alt="Screenshot (321)" src="https://github.com/user-attachments/assets/7717e3e4-fb90-4169-b36e-8f63a07b4fb3" />
+Following Image shows that httpd is installed
+<img width="1920" height="1080" alt="Screenshot (322)" src="https://github.com/user-attachments/assets/9ce917c2-0866-4cd1-adf4-91c62fc9d829" />
 
-CentOS Stream 9 - Extras packages                47 kB/s | 8.0 kB     00:00    
-CentOS Stream 9 - Extras packages                51 kB/s |  20 kB     00:00    
-
-Extra Packages for Enterprise Linux 9 - x86_64   71 kB/s |  22 kB     00:00    
-Extra Packages for Enterprise Linux 9 - x86_64   20 MB/s |  20 MB     00:01    
-
-Extra Packages for Enterprise Linux 9 openh264  7.0 kB/s | 993  B     00:00    
-Extra Packages for Enterprise Linux 9 - Next -  127 kB/s |  24 kB     00:00    
-Extra Packages for Enterprise Linux 9 - Next -  587 kB/s | 289 kB     00:00    
-
-Dependencies resolved.
-================================================================================
- Package                 Arch        Version               Repository      Size
-================================================================================
-Installing:
- nginx                   x86_64      2:1.20.1-24.el9       appstream       36 k
-Installing dependencies:
- centos-logos-httpd      noarch      90.8-3.el9            appstream      1.5 M
- nginx-core              x86_64      2:1.20.1-24.el9       appstream      570 k
- nginx-filesystem        noarch      2:1.20.1-24.el9       appstream      9.3 k
-Installing weak dependencies:
- logrotate               x86_64      3.18.0-12.el9         baseos          74 k
-
-Transaction Summary
-================================================================================
-Install  5 Packages
-
-Total download size: 2.2 M
-Installed size: 4.5 M
-Downloading Packages:
-(1/5): nginx-1.20.1-24.el9.x86_64.rpm           295 kB/s |  36 kB     00:00    
-(2/5): nginx-core-1.20.1-24.el9.x86_64.rpm      3.4 MB/s | 570 kB     00:00    
-(3/5): nginx-filesystem-1.20.1-24.el9.noarch.rp 225 kB/s | 9.3 kB     00:00    
-(4/5): centos-logos-httpd-90.8-3.el9.noarch.rpm 4.2 MB/s | 1.5 MB     00:00    
-(5/5): logrotate-3.18.0-12.el9.x86_64.rpm       181 kB/s |  74 kB     00:00    
---------------------------------------------------------------------------------
-Total                                           2.9 MB/s | 2.2 MB     00:00     
-Running transaction check
-Transaction check succeeded.
-Running transaction test
-Transaction test succeeded.
-Running transaction
-
-  Preparing        :                                                        1/1 
-  Running scriptlet: nginx-filesystem-2:1.20.1-24.el9.noarch                1/5 
-  Installing       : nginx-filesystem-2:1.20.1-24.el9.noarch                1/5 
-  Installing       : nginx-core-2:1.20.1-24.el9.x86_64                      2/5 
-  Installing       : centos-logos-httpd-90.8-3.el9.noarch                   3/5 
-  Running scriptlet: logrotate-3.18.0-12.el9.x86_64                         4/5 
-  Installing       : logrotate-3.18.0-12.el9.x86_64                         4/5 
-  Running scriptlet: logrotate-3.18.0-12.el9.x86_64                         4/5 
-Created symlink /etc/systemd/system/timers.target.wants/logrotate.timer → /usr/lib/systemd/system/logrotate.timer.
-
-  Installing       : nginx-2:1.20.1-24.el9.x86_64                           5/5 
-  Running scriptlet: nginx-2:1.20.1-24.el9.x86_64                           5/5 
-  Verifying        : logrotate-3.18.0-12.el9.x86_64                         1/5 
-  Verifying        : centos-logos-httpd-90.8-3.el9.noarch                   2/5 
-  Verifying        : nginx-2:1.20.1-24.el9.x86_64                           3/5 
-  Verifying        : nginx-core-2:1.20.1-24.el9.x86_64                      4/5 
-  Verifying        : nginx-filesystem-2:1.20.1-24.el9.noarch                5/5 
-
-Installed:
-  centos-logos-httpd-90.8-3.el9.noarch      logrotate-3.18.0-12.el9.x86_64     
-  nginx-2:1.20.1-24.el9.x86_64              nginx-core-2:1.20.1-24.el9.x86_64  
-  nginx-filesystem-2:1.20.1-24.el9.noarch  
-
-Complete!
-
-[SSH] completed
-[SSH] exit-status: 0
-
-Finished: SUCCESS
-
-```
