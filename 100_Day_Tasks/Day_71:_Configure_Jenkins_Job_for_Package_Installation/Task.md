@@ -144,9 +144,9 @@ Step 8: Build and Test the Job
 1. Go back to the Jenkins Job and click on "Build with Parameters"
 2. Remove the default package name and input nginx
 <img width="1920" height="1080" alt="Screenshot (309)" src="https://github.com/user-attachments/assets/59dd702c-7332-4c3e-a1d1-a6cc0c4eda5f" />
-.
+-
 - In place of package_name write nginx 
-.
+-
 3. Click on Build
 4. Once the build is successful, check the logs for confirmation   
 
