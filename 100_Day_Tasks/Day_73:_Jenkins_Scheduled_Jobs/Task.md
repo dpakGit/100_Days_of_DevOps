@@ -24,82 +24,31 @@ Note:
 
 ```
 thor@jumphost ~$ ssh tony@stapp01
-The authenticity of host 'stapp01 (172.16.238.10)' can't be established.
-ED25519 key fingerprint is SHA256:jxYnL7iYhSi3hOVMft826G+8+N4D4jsu50YaKYBtjaw.
-This key is not known by any other names
-Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
-Warning: Permanently added 'stapp01' (ED25519) to the list of known hosts.
-tony@stapp01's password: 
-[tony@stapp01 ~]$ # Check the files are present or not
-[tony@stapp01 ~]$ systenctl status httpd
--bash: systenctl: command not found
+
+# Check the files are present or not
+
 [tony@stapp01 ~]$ systemctl status httpd
 ● httpd.service - The Apache HTTP Server
      Loaded: loaded (/usr/lib/systemd/system/httpd.service; disabled; pr>
      Active: active (running) since Thu 2025-10-02 07:53:09 UTC; 3min 2s>
        Docs: man:httpd.service(8)
    Main PID: 2031 (httpd)
-     Status: "Total requests: 0; Idle/Busy workers 100/0;Requests/sec: 0>
-      Tasks: 177 (limit: 411140)
-     Memory: 21.1M
-     CGroup: /docker/1b830a523d7e86966653af136aa6abdd136634dcde6b92b15f2>
-             ├─2031 /usr/sbin/httpd -DFOREGROUND
-             ├─2038 /usr/sbin/httpd -DFOREGROUND
-             ├─2039 /usr/sbin/httpd -DFOREGROUND
-             ├─2040 /usr/sbin/httpd -DFOREGROUND
-             └─2041 /usr/sbin/httpd -DFOREGROUND
-
-Oct 02 07:54:38 stapp01.stratos.xfusioncorp.com systemd[1]: httpd.servic>
-Oct 02 07:54:48 stapp01.stratos.xfusioncorp.com systemd[1]: httpd.servic>
-Oct 02 07:54:58 stapp01.stratos.xfusioncorp.com systemd[1]: httpd.servic>
-Oct 02 07:55:08 stapp01.stratos.xfusioncorp.com systemd[1]: httpd.servic>
-Oct 02 07:55:18 stapp01.stratos.xfusioncorp.com systemd[1]: httpd.servic>
-Oct 02 07:55:28 stapp01.stratos.xfusioncorp.com systemd[1]: httpd.servic>
-Oct 02 07:55:38 stapp01.stratos.xfusioncorp.com systemd[1]: httpd.servic>
 
 [tony@stapp01 ~]$ # Check the files are present or not
-[tony@stapp01 ~]$ cd /var/lo
-local/ lock/  log/   
-[tony@stapp01 ~]$ cd /var/lo
-local/ lock/  log/   
-[tony@stapp01 ~]$ cd /var/lo
-local/ lock/  log/   
+
 [tony@stapp01 ~]$ cd /var/log
 [tony@stapp01 log]$ ls
 README    btmp             dnf.log      hawkey.log  lastlog  tallylog
 anaconda  dnf.librepo.log  dnf.rpm.log  httpd       private  wtmp
-[tony@stapp01 log]$ cd /httpd
--bash: cd: /httpd: No such file or directory
-[tony@stapp01 log]$ cd ~
-[tony@stapp01 ~]$ pwd
-/home/tony
-[tony@stapp01 ~]$ cd /var/log/
-[tony@stapp01 log]$ ls
-README    btmp             dnf.log      hawkey.log  lastlog  tallylog
-anaconda  dnf.librepo.log  dnf.rpm.log  httpd       private  wtmp
-[tony@stapp01 log]$ cd /httpd/
--bash: cd: /httpd/: No such file or directory
-[tony@stapp01 log]$ cd /httpd/
--bash: cd: /httpd/: No such file or directory
+
 [tony@stapp01 log]$ cd httpd
 [tony@stapp01 httpd]$ ls
 access_log  error_log
 [tony@stapp01 httpd]$ ls
 access_log  error_log
+
 [tony@stapp01 httpd]$ # ssh into STORAGE SERVER
 [tony@stapp01 httpd]$ ssh natasha@ststor01
-The authenticity of host 'ststor01 (172.16.238.15)' can't be established.
-ED25519 key fingerprint is SHA256:VICKnZFQGUpSEnvseNfCRE4iMPFoTO4pgnWbzpREbjE.
-This key is not known by any other names
-Are you sure you want to continue connecting (yes/no/[fingerprint])? 
-Host key verification failed.
-[tony@stapp01 httpd]$ ssh natasha@ststor01
-The authenticity of host 'ststor01 (172.16.238.15)' can't be established.
-ED25519 key fingerprint is SHA256:VICKnZFQGUpSEnvseNfCRE4iMPFoTO4pgnWbzpREbjE.
-This key is not known by any other names
-Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
-Warning: Permanently added 'ststor01' (ED25519) to the list of known hosts.
-natasha@ststor01's password: 
 
 [tony@stapp01 httpd]$ ssh-keygen
 Generating public/private rsa key pair.
