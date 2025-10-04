@@ -24,3 +24,124 @@ For these kind of scenarios requiring changes to be done in a web UI, please tak
 
 ### What I Did
 
+Jenkins Database Backup Job Documentation
+
+Table of Contents
+
+- #prerequisites
+- #step-1-install-required-plugins
+- #step-2-create-remote-host-credentials
+- #step-3-configure-ssh-remote-host-connection
+- #step-4-establish-passwordless-authentication
+- #step-5-create-a-jenkins-job
+- #step-6-configure-build-periodically
+- #step-7-configure-build-steps
+- #step-8-build-and-test-the-job
+
+Prerequisites
+
+- Jenkins installed and running
+- Database server and backup server set up
+
+Step 1: Install Required Plugins
+
+- Go to Manage Jenkins > Plugins > Available Plugins
+- Search for "SSH" and install the following plugins:
+    - SSH
+    - SSH Credentials
+    - SSH Build Agents
+    - SSH Agents
+    - Publish Over SSH
+ 
+  <br><br>
+<img width="1920" height="1080" alt="Screenshot (350)" src="https://github.com/user-attachments/assets/e13fa075-f32d-4a96-abce-15b951817321" />
+
+  <br><br>
+<br><br>
+<img width="1920" height="1080" alt="Screenshot (351)" src="https://github.com/user-attachments/assets/5e517175-ff66-40e7-8d1e-89fd7f5171d3" />
+
+<br><br>
+
+Step 2: Create Remote Host Credentials
+
+1. Go to Manage Jenkins > Credentials > System > Global credentials
+2. Click Add Credentials
+3. Select Username with password as the credential type
+4. Fill in the details:
+    - Username: Enter the username for your storage server (e.g., peter)
+    - Password: Enter the password for the username
+    - ID: Give a unique ID to the credential (optional but recommended)
+5. Click OK to save the credential
+<br><br>
+
+<br><br>
+Step 3: Configure SSH Remote Host Connection
+
+1. Go to Manage Jenkins > System
+2. Scroll down to "SSH remote hosts"
+3. Click on Add
+    - Host Name: stdb01.stratos.xfusioncorp.com/IP Address
+    - Port: 22
+    - Credentials: Select the credential name from the dropdown arrow (e.g., peter)
+4. Click on the "Check Connection" button to confirm connection is established
+<br><br>
+<img width="1920" height="1080" alt="Screenshot (352)" src="https://github.com/user-attachments/assets/283ddf53-b689-4ce0-b0d4-18f615d34ea4" />
+<br><br>
+
+Step 4: Establish Passwordless Authentication
+
+1. Go to the terminal of jumphost
+2. ssh into database server (ssh peter@stdb01)
+3. Create ssh keys (ssh-keygen)
+4. Copy the ssh public key to the Backup server (ssh-copy-id clint@stbkp01)
+5. Verify passwordless authentication
+<br><br>
+<img width="1920" height="1080" alt="Screenshot (348)" src="https://github.com/user-attachments/assets/ebbd5a12-5364-4bf1-bd52-96ae7ae878bf" />
+<br><br>
+
+Step 5: Create a Jenkins Job
+
+1. Go to your Jenkins dashboard and click on New Item
+2. Choose Freestyle project and name your job (e.g., "database-backup")
+3. Click OK to create the job
+
+Step 6: Configure Build Periodically
+
+1. Go to the Job > Configure
+2. Go to Triggers
+3. Select Build periodically and enter "*/10 * * * *" in the Schedule box
+
+<br><br>
+<img width="1920" height="1080" alt="Screenshot (358)" src="https://github.com/user-attachments/assets/bfffe17f-2c48-4e8f-be2f-f61c749d2ab7" />
+<br><br>
+
+Step 7: Configure Build Steps
+
+1. Select Execute shell script on remote host using ssh option
+2. Configure SSH site: "peter@stdb01.stratos.xfusioncorp.com:22"
+3. Enter the command: mysqldump -u kodekloud_roy -p'asdfgdsd' kodekloud_db01 > db_$(date +%F).sql scp -o StrictHostKeyChecking=no db_$(date +%F).sql clint@stbkp01:/home/clint/db_backups/
+4. Save
+<br><br>
+<img width="1920" height="1080" alt="Screenshot (359)" src="https://github.com/user-attachments/assets/e3531c7c-5f63-4ac6-a792-6bcc51656aea" />
+<br><br>
+Step 8: Build and Test the Job
+
+1. Go back to the Jenkins Job and click on "Build"
+<br><br>
+<img width="1920" height="1080" alt="Screenshot (356)" src="https://github.com/user-attachments/assets/1be70a09-a4bc-4afc-b303-6992056c1745" />
+<br><br>
+
+#### Verify the backup file creation:
+
+1. Login to the Backup server: Access the terminal of the Backup server (stbkp01).
+2. Navigate to the backup directory: Run the command cd /home/clint/db_backups/ to change into the directory where the backup files are stored.
+3. List the files: Run the command ls to list the files in the directory.
+4. Check for the backup file: Verify that a file with a name like db_<date>.sql (e.g., db_2024-10-04.sql) is present in the list.
+
+By doing this, you can confirm that the Jenkins job successfully created a backup file on the Backup server.
+
+If you want to test the job again:
+
+1. Remove the existing backup file: Run the command rm db_<date>.sql (replace <date> with the actual date) to delete the existing backup file.
+2. Trigger the Jenkins job again: Go back to the Jenkins dashboard and click on "Build" to run the job again.
+3. Verify the new backup file: After the job completes, repeat the steps above to verify that a new backup file has been created.
