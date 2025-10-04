@@ -21,101 +21,96 @@ Note:
 
 ### What I Did
 
-
 ```
-thor@jumphost ~$ ssh tony@stapp01
+thor@jumphost ~$ pwd
+/home/thor
+thor@jumphost ~$ ls
+thor@jumphost ~$ ssh tony@stdb01
+The authenticity of host 'stdb01 (172.16.239.10)' can't be established.
+ED25519 key fingerprint is SHA256:E4sOrr32a86HQ934AmX9LigAY4UrO1OTmSAC04HMmaU.
+This key is not known by any other names
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes^C
+thor@jumphost ~$ ssh tony@stdb01.stratos.xfusioncorp.com
+The authenticity of host 'stdb01.stratos.xfusioncorp.com (172.16.239.10)' can't be established.
+ED25519 key fingerprint is SHA256:E4sOrr32a86HQ934AmX9LigAY4UrO1OTmSAC04HMmaU.
+This key is not known by any other names
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added 'stdb01.stratos.xfusioncorp.com' (ED25519) to the list of known hosts.
+tony@stdb01.stratos.xfusioncorp.com's password: 
+thor@jumphost ~$ ssh peter@stdb01
+peter@stdb01's password: 
+Last login: Sat Oct  4 03:48:27 2025 from 172.16.239.2
+[peter@stdb01 ~]$ ls
+[peter@stdb01 ~]$ ssh clint@stbkp01
+The authenticity of host 'stbkp01 (172.17.0.4)' can't be established.
+ED25519 key fingerprint is SHA256:zaRxR12+eBKM8nETBuRfxKBhU94gzoEPFyKeBiGWkjg.
+This key is not known by any other names
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added 'stbkp01' (ED25519) to the list of known hosts.
+clint@stbkp01's password: 
+[clint@stbkp01 ~]$ cd /home/clint/db_backups
+[clint@stbkp01 db_backups]$ ls
+[clint@stbkp01 db_backups]$ exit
+logout
+Connection to stbkp01 closed.
+[peter@stdb01 ~]$ exit
+logout
+Connection to stdb01 closed.
+thor@jumphost ~$ ssh peter@stdb01
+peter@stdb01's password: 
+Last failed login: Sat Oct  4 03:57:42 UTC 2025 from 172.16.239.3 on ssh:notty
+There were 12 failed login attempts since the last successful login.
+Last login: Sat Oct  4 03:49:21 2025 from 172.16.239.2
+[peter@stdb01 ~]$ ssh clint@stbkp01
+clint@stbkp01's password: 
 
-# Check the files are present or not
-
-[tony@stapp01 ~]$ systemctl status httpd
-● httpd.service - The Apache HTTP Server
-     Loaded: loaded (/usr/lib/systemd/system/httpd.service; disabled; pr>
-     Active: active (running) since Thu 2025-10-02 07:53:09 UTC; 3min 2s>
-       Docs: man:httpd.service(8)
-   Main PID: 2031 (httpd)
-
-[tony@stapp01 ~]$ # Check the files are present or not
-
-[tony@stapp01 ~]$ cd /var/log
-[tony@stapp01 log]$ ls
-README    btmp             dnf.log      hawkey.log  lastlog  tallylog
-anaconda  dnf.librepo.log  dnf.rpm.log  httpd       private  wtmp
-
-[tony@stapp01 log]$ cd httpd
-[tony@stapp01 httpd]$ ls
-access_log  error_log
-[tony@stapp01 httpd]$ ls
-access_log  error_log
-
-[tony@stapp01 httpd]$ # ssh into STORAGE SERVER
-[tony@stapp01 httpd]$ ssh natasha@ststor01
-
-[tony@stapp01 httpd]$ ssh-keygen
+[peter@stdb01 ~]$ ssh-keygen
 Generating public/private rsa key pair.
-Enter file in which to save the key (/home/tony/.ssh/id_rsa): 
+Enter file in which to save the key (/home/peter/.ssh/id_rsa): 
 Enter passphrase (empty for no passphrase): 
 Enter same passphrase again: 
-Your identification has been saved in /home/tony/.ssh/id_rsa
-Your public key has been saved in /home/tony/.ssh/id_rsa.pub
+Your identification has been saved in /home/peter/.ssh/id_rsa
+Your public key has been saved in /home/peter/.ssh/id_rsa.pub
 The key fingerprint is:
-SHA256:bk7LnBFyaeYQJAxv9KHsxK2+7CQTK6Tx4U8mztRwBJQ tony@stapp01.stratos.xfusioncorp.com
+SHA256:lIr/UaZhVfclmtXOCp8IE741UHoX7Mj7UIYnXeWc2ME peter@stdb01.stratos.xfusioncorp.com
 The key's randomart image is:
 +---[RSA 3072]----+
-| .++o o          |
-|  E*.* .         |
-|    O +          |
-|   = . . .       |
-|..+ + o S        |
-|o+ O   O .       |
-|o O *   *        |
-| = X . * +       |
-|  o.=   *        |
+|           .o.*o+|
+|         .oo =+E*|
+|        o.o++*.*+|
+|     . o .+.O.* o|
+|    . . S o= @ o |
+|     . . =. + +  |
+|      . o    o   |
+|       . .    .  |
+|        .        |
 +----[SHA256]-----+
-[tony@stapp01 httpd]$ ls
-access_log  error_log
-[tony@stapp01 httpd]$ ls -alh
-total 12K
-drwx------ 1 tony tony 4.0K Oct  2 07:53 .
-drwxr-xr-x 1 root root 4.0K Jul 27  2024 ..
--rw-r--r-- 1 tony tony    0 Oct  2 07:53 access_log
--rw-r--r-- 1 tony tony  723 Oct  2 07:53 error_log
-[tony@stapp01 httpd]$ cd .ssh/
--bash: cd: .ssh/: No such file or directory
-[tony@stapp01 httpd]$ cd /.ssh
--bash: cd: /.ssh: No such file or directory
-[tony@stapp01 httpd]$ pwd
-/var/log/httpd
-[tony@stapp01 httpd]$ cd /home/tony/.ssh/
-[tony@stapp01 .ssh]$ ls
-id_rsa  id_rsa.pub  known_hosts
-[tony@stapp01 .ssh]$ ssh-copy-id
-Usage: /usr/bin/ssh-copy-id [-h|-?|-f|-n|-s] [-i [identity_file]] [-p port] [-F alternative ssh_config file] [[-o <ssh -o options>] ...] [user@]hostname
-        -f: force mode -- copy keys without trying to check if they are already installed
-        -n: dry run    -- no keys are actually copied
-        -s: use sftp   -- use sftp instead of executing remote-commands. Can be useful if the remote only allows sftp
-        -h|-?: print this help
-[tony@stapp01 .ssh]$ ssh-copy-id natasha@ststor01
-/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/tony/.ssh/id_rsa.pub"
+[peter@stdb01 ~]$ ssh-copy-id clint@stbkp01
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/peter/.ssh/id_rsa.pub"
 /usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
 /usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
-natasha@ststor01's password: 
+clint@stbkp01's password: 
 
 Number of key(s) added: 1
 
-Now try logging into the machine, with:   "ssh 'natasha@ststor01'"
+Now try logging into the machine, with:   "ssh 'clint@stbkp01'"
 and check to make sure that only the key(s) you wanted were added.
 
-[tony@stapp01 .ssh]$ ssh  natasha@ststor01
-[natasha@ststor01 ~]$ ls /usr/src/devops
-[natasha@ststor01 ~]$ cd /usr/src/devops
-[natasha@ststor01 devops]$ ls
-[natasha@ststor01 devops]$ ls
-access_log  error_log
-[natasha@ststor01 devops]$ ls
-access_log  error_log
-[natasha@ststor01 devops]$ rm *
-[natasha@ststor01 devops]$ ls
-[natasha@ststor01 devops]$ ls
-access_log  error_log
-[natasha@ststor01 devops]$ 
+[peter@stdb01 ~]$ ssh clint@stbkp01
+Last failed login: Sat Oct  4 04:10:00 UTC 2025 from 172.17.0.5 on ssh:notty
+There were 2 failed login attempts since the last successful login.
+Last login: Sat Oct  4 03:50:32 2025 from 172.17.0.5
+[clint@stbkp01 ~]$ # popup for Password did not appear, It means it worked
+[clint@stbkp01 ~]$ cd /home/clint/db_backups
+[clint@stbkp01 db_backups]$ ls
+[clint@stbkp01 db_backups]$ ls
+db_2025-10-04.sql
+[clint@stbkp01 db_backups]$ 3 Ater Build as i ran the ls command the backupfile appeared
+-bash: 3: command not found
+[clint@stbkp01 db_backups]$ #  Ater Build as i ran the ls command the backupfile appeared
+[clint@stbkp01 db_backups]$ rm *
+[clint@stbkp01 db_backups]$ ls
+[clint@stbkp01 db_backups]$ ls
+db_2025-10-04.sql
+[clint@stbkp01 db_backups]$ 
 ```
