@@ -88,14 +88,30 @@ Step 3: Configure SSH Remote Host Connection
 <img width="1920" height="1080" alt="Screenshot (352)" src="https://github.com/user-attachments/assets/283ddf53-b689-4ce0-b0d4-18f615d34ea4" />
 <br><br>
 
-Step 4: Establish Passwordless Authentication
 
-1. Go to the terminal of jumphost
-2. ssh into database server (ssh peter@stdb01)
-3. Create ssh keys (ssh-keygen)
-4. Copy the ssh public key to the Backup server (ssh-copy-id clint@stbkp01)
-5. Verify passwordless authentication
-<br><br>
+Step 5: Establish Passwordless Authentication between Database Server and Backup Server
+
+To enable passwordless authentication between the Database Server and Backup Server, follow these steps:
+
+Step 5.1: Access the Database Server
+1. Login to the Jumphost: Open a terminal on the Jumphost server.
+2. SSH into the Database Server: Run the command ssh peter@stdb01 to access the Database Server.
+
+Step 5.2: Generate SSH Keys
+1. Create SSH keys: Run the command ssh-keygen to generate a new SSH key pair on the Database Server.
+    - Press Enter to accept the default file location and name for the key pair.
+    - You can choose to enter a passphrase or leave it blank.
+
+Step 5.3: Copy the Public Key to the Backup Server
+1. Copy the public key: Run the command ssh-copy-id clint@stbkp01 to copy the public key to the Backup Server.
+    - You will be prompted to enter the password for the Backup Server.
+
+Step 5.4: Verify Passwordless Authentication
+1. Test the connection: Run the command ssh clint@stbkp01 to connect to the Backup Server from the Database Server.
+2. Verify passwordless login: If the public key has been successfully copied, you should be logged in to the Backup Server without being prompted for a password.
+    - If you are prompted for a password, the key copy may not have been successful. Repeat the steps above to troubleshoot the issue.
+
+By completing these steps, you have successfully established passwordless authentication between the Database Server and Backup Server.<br><br>
 <img width="1920" height="1080" alt="Screenshot (348)" src="https://github.com/user-attachments/assets/ebbd5a12-5364-4bf1-bd52-96ae7ae878bf" />
 <br><br>
 
