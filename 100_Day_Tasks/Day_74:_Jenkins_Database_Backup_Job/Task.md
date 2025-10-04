@@ -43,7 +43,7 @@ Prerequisites
 - Jenkins installed and running
 - Database server and backup server set up
 
- #### Step 1: Install Required Plugins <ins>text</ins>
+ #### <ins>Step 1: Install Required Plugins</ins>
 
 - Go to Manage Jenkins > Plugins > Available Plugins
 - Search for "SSH" and install the following plugins:
@@ -62,7 +62,7 @@ Prerequisites
 
 <br><br>
 
-#### Step 2: Create Remote Host Credentials
+#### <ins>Step 2: Create Remote Host Credentials</ins>
 
 1. Go to Manage Jenkins > Credentials > System > Global credentials
 2. Click Add Credentials
@@ -75,7 +75,7 @@ Prerequisites
 <br><br>
 
 <br><br>
-#### Step 3: Configure SSH Remote Host Connection
+#### <ins>Step 3: Configure SSH Remote Host Connection</ins>
 
 1. Go to Manage Jenkins > System
 2. Scroll down to "SSH remote hosts"
@@ -89,7 +89,7 @@ Prerequisites
 <br><br>
 
 
-#### Step 4: Establish Passwordless Authentication between Database Server and Backup Server
+#### <ins>Step 4: Establish Passwordless Authentication between Database Server and Backup Server</ins>
 
 To enable passwordless authentication between the Database Server and Backup Server, follow these steps:
 
@@ -115,13 +115,13 @@ By completing these steps, you have successfully established passwordless authen
 <img width="1920" height="1080" alt="Screenshot (348)" src="https://github.com/user-attachments/assets/ebbd5a12-5364-4bf1-bd52-96ae7ae878bf" />
 <br><br>
 
-#### Step 5: Create a Jenkins Job
+#### <ins>Step 5: Create a Jenkins Job</ins>
 
 1. Go to your Jenkins dashboard and click on New Item
 2. Choose Freestyle project and name your job (e.g., "database-backup")
 3. Click OK to create the job
 
-#### Step 6: Configure Build Periodically
+#### <ins>Step 6: Configure Build Periodically</ins>
 
 1. Go to the Job > Configure
 2. Go to Triggers
@@ -131,7 +131,7 @@ By completing these steps, you have successfully established passwordless authen
 <img width="1920" height="1080" alt="Screenshot (358)" src="https://github.com/user-attachments/assets/bfffe17f-2c48-4e8f-be2f-f61c749d2ab7" />
 <br><br>
 
-#### Step 7: Configure Build Steps
+#### <ins>Step 7: Configure Build Steps</ins>
 
 1. Select Execute shell script on remote host using ssh option
 2. Configure SSH site: "peter@stdb01.stratos.xfusioncorp.com:22"
@@ -141,14 +141,14 @@ By completing these steps, you have successfully established passwordless authen
 <img width="1920" height="1080" alt="Screenshot (359)" src="https://github.com/user-attachments/assets/e3531c7c-5f63-4ac6-a792-6bcc51656aea" />
 <br><br>
 
-#### Step 8: Build and Test the Job
+#### <ins>Step 8: Build and Test the Job</ins>
 
 1. Go back to the Jenkins Job and click on "Build"
 <br><br>
 <img width="1920" height="1080" alt="Screenshot (356)" src="https://github.com/user-attachments/assets/1be70a09-a4bc-4afc-b303-6992056c1745" />
 <br><br>
 
-#### Verify the backup file creation:
+#### <ins>Verify the backup file creation:</ins>
 
 1. Login to the Backup server: Access the terminal of the Backup server (stbkp01).
 2. Navigate to the backup directory: Run the command cd /home/clint/db_backups/ to change into the directory where the backup files are stored.
