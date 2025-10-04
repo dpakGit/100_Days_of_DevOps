@@ -43,7 +43,7 @@ Prerequisites
 - Jenkins installed and running
 - Database server and backup server set up
 
-== #### Step 1: Install Required Plugins ==
+ #### Step 1: Install Required Plugins <ins>text</ins>
 
 - Go to Manage Jenkins > Plugins > Available Plugins
 - Search for "SSH" and install the following plugins:
