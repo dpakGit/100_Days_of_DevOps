@@ -1,3 +1,5 @@
+https://www.youtube.com/watch?v=CsEagOVcrTY&t=39s
+
 The two options you're looking at are related to Jenkins' authorization and security settings. Here's a breakdown of the differences:
 
 1. Enable project-based security (Inheritance Strategy: Inherit permissions from parent ACL)
