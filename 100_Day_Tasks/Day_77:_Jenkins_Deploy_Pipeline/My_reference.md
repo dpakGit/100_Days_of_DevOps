@@ -1,3 +1,4 @@
+https://www.youtube.com/watch?v=DOCixkiLnUE
 
 
 The task is all about establishing a Continuous Deployment (CD) pipeline in Jenkins to automatically deploy a static website from a Gitea repository to the application servers. The key challenge is that the target deployment directory is already mounted and shared across all application servers, simplifying the deployment process to a single file copy operation.
