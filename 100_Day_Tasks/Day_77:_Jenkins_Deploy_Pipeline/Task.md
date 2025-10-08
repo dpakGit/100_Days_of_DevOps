@@ -569,3 +569,22 @@ pipeline {
     }
 }
 ```
+
+OR
+
+```
+pipeline {
+    agent {
+        label 'ststor01'
+    }
+    stages {
+        stage('Deploy') {
+            steps {
+                git url: "http://git.stratos.xfusioncorp.com/sarah/web_app.git", 
+                    branch: "master"
+                sh "cp -r * /var/www/html/"
+            }
+        }
+    }
+}
+```
