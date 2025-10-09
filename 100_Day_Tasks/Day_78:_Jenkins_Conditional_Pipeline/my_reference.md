@@ -1,4 +1,8 @@
 https://www.youtube.com/watch?v=f9W5wD8yp8E
+
+Converting Conditional Build Steps to Jenkins Pipeline : 
+https://www.jenkins.io/blog/2017/01/19/converting-conditional-to-pipeline/
+
 ----------------------------------
 Meta AI
 
