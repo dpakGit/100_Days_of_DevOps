@@ -1,17 +1,3 @@
-# Create Chained Builds in Jenkins
-## Introduction
-This is, by far, one of the longest tasks that I have completed so far. Given the sheer number of steps involved, it took me around 25 minutes to complete all the steps, thereby forefeiting my bonus points. I don't regret though.
-
-This task is quite similar to, but has more steps than, [Deployment using Jenkins](./Deployment-Using-Jenkins.md) task.
-
-The task involves the following 3 key steps:
-1. Create a Jenkins build job that pulls _all_ files from a GIT repo and pushes to a directory on the storage server. To achieve this, you need to install [Gitea](https://plugins.jenkins.io/gitea/) and [Publish over SSH](https://plugins.jenkins.io/publish-over-ssh/) plugins in Jenkins
-2. Task expects that when a file is committed to the GIT repo, the above build is automatically trigger. This requires enabling a [Webhook](https://en.wikipedia.org/wiki/Webhook) on the Build job and setting up this Webhook on the Gitea UI. You need to also install [Build Authorization Token Root](https://plugins.jenkins.io/build-token-root/) plugin in Jenkins to allow Gitea to trigger the Jenkins build without authenticating
-3. Finally, the task expects you to create another Jenkins build job that can run SSH commands on the appservers and restart the 'httpd' service. For this, you need to install [SSH](https://plugins.jenkins.io/ssh) plugin and also enable 'password-less sudo' on all the appservers. Most importantly, this build job should get triggered automatically by the first build job.
-
-Happy learning and good luck with your attempt!
-
-## Solution
 ### Step 1: Enable password-less sudo in all appservers
 * SSH to each of the appserver and run `sudo visudo`
 * In the resulting file, at the end of the file add password-less sudo for respective sudo user:
