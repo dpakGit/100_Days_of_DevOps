@@ -1,6 +1,7 @@
 ### Step 1: Enable password-less sudo in all appservers
 * SSH to each of the appserver and run `sudo visudo`
 * In the resulting file, at the end of the file add password-less sudo for respective sudo user:
+  
 stapp01:
 ```
 tony ALL=(ALL) NOPASSWD: ALL
@@ -16,17 +17,19 @@ banner ALL=(ALL) NOPASSWD: ALL
 
 ### Step 2: Install Gitea and SSH Plugins in Jenkins
 * Login using the Jenkins admin user and password given in the question
-* Under  `Jenkins > Manage Jenkins >  Manage Plugins` click `Available` Install the following plugins :
+* Go to Manage Jenkins >  Manage Plugins click Available Plugins & Install the following plugins :
+  
   - Gitea
   - SSh
   - SSH Build Agents
   - Publish over SSH
   - SSH Credentials
   - SSH Agent
-  - `Build Authorization Token Root` 
+  - Build Authorization Token Root
 
 ### Step 3: Setup Credentials for GIT and SSH users
-* Under Manage Jenkins > Credentials, click `Global` under `Stores scoped to Jenkins` and `Add Credentials`
+* Under Manage Jenkins > Credentials,
+*  click Global under Stores scoped to Jenkins and Add Credentials.
 * Leave kind as `Username with Password` and Scope as `Global (..)`
 * Setup GIT credentials for Sarah:
 ```
@@ -41,7 +44,7 @@ Password: Ir0nM@n
 ID: tony
 ```
 ### Step 4: Add SSH Hosts in Jenkins
-* Click Manage Jenkins > Configure System`
+* Click Manage Jenkins > Configure System
 * Under SSH Remote Hosts click `Add Host` and provide the following values:
 ```
 Hostname: stapp01
