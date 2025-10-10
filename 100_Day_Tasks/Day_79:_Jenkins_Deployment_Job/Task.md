@@ -295,6 +295,80 @@ Last login: Thu Oct  9 13:17:56 2025 from 172.16.238.3
     3  sudo systemctl restart httpd
 ```
 
+```
+Last login: Fri Oct 10 03:26:50 UTC 2025 on pts/6
+Traceback (most recent call last):
+  File "/usr/local/bin/asciinema", line 8, in <module>
+    sys.exit(main())
+             ^^^^^^
+thor@jumphost ~$ ssh natasha@ststor01
+The authenticity of host 'ststor01 (172.16.238.15)' can't be established.
+ED25519 key fingerprint is SHA256:VKSM7OzedCHU7/53MwkolspkywpAN3Z8l75nXgH1Kec.
+This key is not known by any other names
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added 'ststor01' (ED25519) to the list of known hosts.
+natasha@ststor01's password: 
+[natasha@ststor01 ~]$ sudo -s
+
+We trust you have received the usual lecture from the local System
+Administrator. It usually boils down to these three things:
+
+    #1) Respect the privacy of others.
+    #2) Think before you type.
+    #3) With great power comes great responsibility.
+
+[sudo] password for natasha: 
+[root@ststor01 natasha]# ls -a
+.  ..  .bash_logout  .bash_profile  .bashrc
+[root@ststor01 natasha]# mkdir .ssh
+[root@ststor01 natasha]# ls -a
+.  ..  .bash_logout  .bash_profile  .bashrc  .ssh
+[root@ststor01 natasha]# cat > .ssh/authorized_keys
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQClWH5iMm6yQ33+pSLZPqaOgAI2ydsHvRQ6iKh+xH+llq8Cc62+VrfLg32oiqtB+nlMCTb17BsBVH9fHtdmXFu1J8LA44bJkNHIdbSTBwDm6H60kHAFKcGVzn66NRv3ghNtL9+eXhlkEdGrNr4l4RVdFb1+8bVZ3TXuOBR5oee92JBx+O+QTZK8N8LUJq3ZsczoV0LZGUfLh+P5Un+Ix4gCFPpQrpVzScT2r5dA/sScd6aWgZnDroi2Da12kqcoY9dHPOuL+CvduA6yyqwNnhpPuZ6sJzRaJ1PjbhrHTNKPGA5SxML/Tk9MP90kxfSwZsTSIYFAS4dGRQhsHbkB1JmIq9OYc0DPc/lUMmq9PIIPgJDrwIdI0BZ4jfq98P67zzW4EOUiwqNveSP8z6rbVak3W/AYHgWujgQMjIsUerUbSaGrXJ0qYZ0VUkAhyL1w6c69heIh2EhHPLQ+yd/aCLqwJWbzI3YZ8ehJ3KdnITH38Oc3iSiBKjXltYY+VdEs4Ks= jenkins@jenkins.stratos.xfusioncorp.com
+^C
+[root@ststor01 natasha]# cd /var/www/
+[root@ststor01 www]# ls -l
+total 4
+drwxr-xr-x 3 natasha natasha 4096 Aug 18 09:57 html
+[root@ststor01 www]# exit
+exit
+[natasha@ststor01 ~]$ exit
+logout
+Connection to ststor01 closed.
+thor@jumphost ~$ ssh sarah@ststor01
+sarah@ststor01's password: 
+[sarah@ststor01 ~]$ ls
+web
+[sarah@ststor01 ~]$ pwd
+/home/sarah
+[sarah@ststor01 ~]$ cd web/
+[sarah@ststor01 web]$ ls
+index.html
+[sarah@ststor01 web]$ cat index.html 
+Welcome
+[sarah@ststor01 web]$ cat > index.html 
+Welcome to the xFusionCorp Industries^C
+[sarah@ststor01 web]$ vi index.html 
+[sarah@ststor01 web]$ vi index.html 
+[sarah@ststor01 web]$ cat index.html 
+Welcome to the xFusionCorp Industries
+[sarah@ststor01 web]$ git commit -am "Updated index.html"
+[master 73eb96a] Updated index.html
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+[sarah@ststor01 web]$ git branch
+* master
+[sarah@ststor01 web]$ git push origin master
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Writing objects: 100% (3/3), 291 bytes | 291.00 KiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+remote: . Processing 1 references
+remote: Processed 1 references in total
+To http://git.stratos.xfusioncorp.com/sarah/web.git
+   9937785..73eb96a  master -> master
+[sarah@ststor01 web]$ 
+```
+
 
 
 -----------------------------------
