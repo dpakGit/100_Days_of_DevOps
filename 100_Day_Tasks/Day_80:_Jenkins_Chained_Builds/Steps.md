@@ -106,7 +106,7 @@ Note: `**/*` file pattern ensures that the build job pulls all files from the re
 * Under Target URL, copy paste the URL that you copied in the previous step i.e. `https://xxxx.katacoda.com/buildByToken/build?job=nautilus-app-deployment&token=KODEKLOUDENGINEER`
 * Click `Add Webhook`
   
-- The URL format https://<jenkins-url>/buildByToken/build?job=<job-name>&token=<token> is standard for Jenkins job triggers.
+- The URL format `https://<jenkins-url>/buildByToken/build?job=<job-name>&token=<token>` is standard for Jenkins job       triggers.
  
 * Click the webhook again and click `Test delivery` to check the hook works. This will send a fake event to Jenkins
 * Go back to Jenkins UI and check if a new build is triggered under `nautilus-app-deployment` job
