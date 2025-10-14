@@ -30,7 +30,7 @@ stapp02 ansible_host=172.238.16.204 ansible_user=steve ansible_ssh_common_args='
 thor@jumphost ~/ansible$ # Update the inventory file with correct configuration
 cat > inventory << 'EOF'
 [app_servers]
-stapp02 ansible_host=172.16.238.11 ansible_user=steve ansible_password=Am3ric@ ansible_become_password=Am3ric@
+stapp02 ansible_host=172.16.238.10 ansible_user=tony ansible_password=Ir0nM@n ansible_become_password=Ir0nM@n
 
 [app_servers:vars]
 ansible_become=yes
@@ -40,7 +40,7 @@ ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 EOF
 thor@jumphost ~/ansible$ cat > inventory << 'EOF'
 [app_servers]
-stapp02 ansible_host=172.16.238.11 ansible_user=steve ansible_password=Am3ric@ ansible_become_password=Am3ric@
+stapp02 ansible_host=172.16.238.10 ansible_user=steve ansible_password=Ir0nM@n ansible_become_password=Ir0nM@n
 
 [app_servers:vars]
 ansible_become=yes
@@ -50,14 +50,15 @@ ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 EOF
 thor@jumphost ~/ansible$ cat inventory 
 [app_servers]
-stapp02 ansible_host=172.16.238.11 ansible_user=steve ansible_password=Am3ric@ ansible_become_password=Am3ric@
+stapp02 ansible_host=172.16.238.10 ansible_user=steve ansible_password=Ir0nM@n ansible_become_password=Ir0nM@n
 
 [app_servers:vars]
 ansible_become=yes
 ansible_become_method=sudo
 ansible_python_interpreter=/usr/bin/python3
 ansible_ssh_common_args='-o StrictHostKeyChecking=no'
-thor@jumphost ~/ansible$ # Create playbook.yml to create empty file on App Server 2
+
+thor@jumphost ~/ansible$ # Create playbook.yml to create empty file on App Server 1
 cat > playbook.yml << 'EOF'
 ---
 - hosts: all
@@ -81,7 +82,8 @@ thor@jumphost ~/ansible$ cat playbook.yml
         path: /tmp/file.txt
         state: touch
         mode: '0644'
-thor@jumphost ~/ansible$ ansible -i inventory stapp02 -m ping
+
+thor@jumphost ~/ansible$ ansible -i inventory stapp01 -m ping
 stapp02 | SUCCESS => {
     "changed": false,
     "ping": "pong"
@@ -91,10 +93,10 @@ thor@jumphost ~/ansible$ ansible-playbook -i inventory playbook.yml
 PLAY [all] *********************************************************************************************************************
 
 TASK [Gathering Facts] *********************************************************************************************************
-ok: [stapp02]
+ok: [stapp01]
 
 TASK [Create empty file /tmp/file.txt] *****************************************************************************************
-changed: [stapp02]
+changed: [stapp01]
 
 PLAY RECAP *********************************************************************************************************************
 stapp02                    : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
@@ -103,6 +105,7 @@ thor@jumphost ~/ansible$ # Verify file creation
 ansible -i inventory stapp02 -m shell -a "ls -la /tmp/file.txt"
 stapp02 | CHANGED | rc=0 >>
 -rw-r--r-- 1 root root 0 Oct 14 10:01 /tmp/file.txt
+
 thor@jumphost ~/ansible$ history | cut -c 8-
 pwd
 ls
@@ -113,7 +116,7 @@ cat inventory
 # Update the inventory file with correct configuration
 cat > inventory << 'EOF'
 rvers]
- ansible_host=172.16.238.11 ansible_user=steve ansible_password=Am3ric@ ansible_become_password=Am3ric@
+ ansible_host=172.16.238.11 ansible_user=steve ansible_password=Ir0nM@n ansible_become_password=Ir0nM@n
 
 rvers:vars]
 _become=yes
@@ -124,7 +127,7 @@ _ssh_common_args='-o StrictHostKeyChecking=no'
 
 cat > inventory << 'EOF'
 rvers]
- ansible_host=172.16.238.11 ansible_user=steve ansible_password=Am3ric@ ansible_become_password=Am3ric@
+ ansible_host=172.16.238.10 ansible_user=steve ansible_password=Ir0nM@n ansible_become_password=Ir0nM@n
 
 rvers:vars]
 _become=yes
