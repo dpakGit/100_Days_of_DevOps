@@ -77,7 +77,30 @@ git commit -am "Update welcome message for deployment"
 
 git push origin master
 ```
-2. Jenkins Credentials Setup
+
+Install Java on the Storage Server
+```
+sudo yum install java-17-openjdk -y
+```
+
+2.  Install Required Jenkins Plugins
+
+```
+# Go to Dashboard > Manage Jenkins > Plugins > Available
+# Install required plugins:
+
+ - Git plugin (usually pre-installed)
+ - SSH plugin  
+ - SSH Agent plugin
+ - SSH Build Agents plugin
+ - Pipeline plugin 
+ - SSH Pipeline Steps plugin (Optional)
+
+ Check "Restart Jenkins when installation is complete and no jobs running"
+
+```
+
+3.Jenkins Credentials Setup
 
 The following Username/Password credentials were created in Jenkins:
 
@@ -86,7 +109,7 @@ Gitea Access	        sarah	     Sarah_pass123	   sarah
 Storage Server SSH	  natasha	  Bl@kW	            storage_server
 
 
-3. Configure Storage Server as Jenkins Agent or node
+4. Configure Storage Server as Jenkins Agent or node
    
 The Storage Server was set up as an agent (node) to allow the pipeline to execute shell commands directly on the server hosting the shared volume.
 
@@ -116,13 +139,13 @@ The exit code 127 in the logs of launch Agent ,confirms that the shell could not
 
 🚀 II. Jenkins Pipeline Code (c)
 
-1. Create Jenkins Job  "🚀 II. Jenkins Pipeline Code (deploy-job)"
+1. Create Jenkins Job 
 
 A new Pipeline job named deploy-job was created with the following Declarative Pipeline script.
 
 The pipeline uses the ststor01 agent and performs a local file copy (cp) to leverage the shared /var/www/html mount point, followed by a simple curl | grep test on the Load Balancer URL.
 
-deploy-job Pipeline Script
+2. Deploy-job Pipeline Script
 
 ```
 pipeline {
@@ -167,7 +190,7 @@ pipeline {
     }
 }
 ```
-Build the job
+3. Build the job
 
 
 📈 III. Verification
@@ -238,13 +261,6 @@ This stage ensures the deployment was successful and the new content is live and
     * **`grep -F`** searches for the fixed string stored in the `INDEX_CONTENT` environment variable (`Welcome to xFusionCorp Industries`).
 * **Failure Mechanism:** If the website is down, inaccessible, or serves incorrect content, the `grep` command will not find the required string and will exit with a **non-zero status code**. Jenkins interprets this non-zero exit code as a failure, causing the **entire `Test` stage, and thus the pipeline, to fail.** This fulfills the requirement that the stage must fail if the website isn't working correctly.
 ```
-
-
-
-
-
-
-
 
 ```
 natasha@ststor01 ~]$ java --version
