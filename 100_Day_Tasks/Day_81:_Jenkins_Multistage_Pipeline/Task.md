@@ -38,9 +38,9 @@ You might need to install some plugins and restart Jenkins service. So, we recom
 
 For these kind of scenarios requiring changes to be done in a web UI, please take screenshots so that you can share it with us for review in case your task is marked incomplete. You may also consider using a screen recording software such as loom.com to record and share your work.
 
-### What i Did
+### What I Did
 
-### Jenkins Deployment Pipeline for xFusionCorp Static Website
+#### Jenkins Deployment Pipeline for xFusionCorp Static Website
 
 
 This document details the configuration and pipeline code used to deploy a static website to Nautilus App Servers via a shared volume on the Storage Server, managed by a two-stage Jenkins pipeline.
