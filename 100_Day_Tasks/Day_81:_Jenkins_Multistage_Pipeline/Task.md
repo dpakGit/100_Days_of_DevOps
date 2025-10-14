@@ -39,12 +39,13 @@ You might need to install some plugins and restart Jenkins service. So, we recom
 For these kind of scenarios requiring changes to be done in a web UI, please take screenshots so that you can share it with us for review in case your task is marked incomplete. You may also consider using a screen recording software such as loom.com to record and share your work.
 
 ### What i Did
+
 ### Jenkins Deployment Pipeline for xFusionCorp Static Website
 
 
 This document details the configuration and pipeline code used to deploy a static website to Nautilus App Servers via a shared volume on the Storage Server, managed by a two-stage Jenkins pipeline.
 
-The most robust and simplest solution relies entirely on setting up the Storage Server as an agent with the label ststor01, and then performing a local file copy in the pipeline.
+**Note:-** The most robust and simplest solution relies entirely on setting up the Storage Server as an agent with the label ststor01, and then performing a local file copy in the pipeline.
 
 🛠️ I. Pre-Deployment Setup (One-Time Steps)
 These actions were performed before creating the Jenkins job.
@@ -53,37 +54,47 @@ These actions were performed before creating the Jenkins job.
 The website content was updated directly on the Storage Server as it holds the local clone of the Git repository under the shared document root (/var/www/html).
 
 Bash
-
+```
 # 1. SSH into the Storage Server (ststor01)
 # User: natasha, Password: Bl@kW
-cd /var/www/html
-echo "Welcome to xFusionCorp Industries" > index.html
+ssh natasha@ststor01
 
-# 2. Commit and push the changes to Gitea
+cd /var/www/html
+
+echo "Welcome to xFusionCorp Industries" > index.html
+```
+- Commit and push the changes to Gitea
+```
 git add index.html
-git commit -m "Update welcome message for deployment"
-# Credentials for push: sarah/Sarah_pass123
+
+git commit -am "Update welcome message for deployment"
+
+# Credentials for push if required: sarah/Sarah_pass123
+
 git push origin master
+```
 2. Jenkins Credentials Setup
+3. 
 The following Username/Password credentials were created in Jenkins:
 
-Purpose	Username	Password	Recommended ID
-Gitea Access	sarah	Sarah_pass123	GITEA-SARAH
-Storage Server SSH	natasha	Bl@kW	STSTOR01-SSH
+Purpose         	  Username	  Password	        Recommended ID
+Gitea Access	       sarah	   Sarah_pass123	 sarah
+Storage Server SSH	   natasha	   Bl@kW	         storage_server
 
-Export to Sheets
-3. Configure Storage Server as Jenkins Agent
+
+3. Configure Storage Server as Jenkins Agent or node
+   
 The Storage Server was set up as an agent (node) to allow the pipeline to execute shell commands directly on the server hosting the shared volume.
 
-Node Name: ststor01
+- Node Name: ststor01
 
-Labels: ststor01 (Crucial for the pipeline agent directive).
+- Labels: ststor01 (Crucial for the pipeline agent directive).
 
-Remote root directory: /home/natasha/jenkins_agent (Changed from /var/lib/jenkins to resolve permissions error).
+- Remote root directory: /home/natasha/jenkins_agent (Changed from /var/lib/jenkins to resolve permissions error).
 
-Launch Method: Launch agent via SSH.
+- Launch Method: Launch agent via SSH.
 
-Credentials: Used the STSTOR01-SSH credential (natasha/Bl@kW).
+- Credentials: Used the storage_server credential (natasha/Bl@kW).
 
 ⚠️ Agent Troubleshooting
 Two main issues were resolved during agent setup:
@@ -91,21 +102,24 @@ Two main issues were resolved during agent setup:
 Permission Denied: Resolved by changing the Remote root directory to a path owned by natasha (/home/natasha/jenkins_agent).
 
 
-Java Not Found: Resolved by installing Java on the Storage Server (ststor01): sudo yum install java -y.
-
+Java Not Found: Resolved by installing Java on the Storage Server (ststor01):
+```
+sudo yum install java-17-openjdk -y
+```
 Jenkins agents are Java applications and require the java command to be available for the connection to be established. 
 The exit code 127 in the logs of launch Agent ,confirms that the shell could not find the executable (java).
 
 
 
-🚀 II. Jenkins Pipeline Code (deploy-job)
+4. Jenkins Pipeline Code (deploy-job)
+
 A new Pipeline job named deploy-job was created with the following Declarative Pipeline script.
 
 The pipeline uses the ststor01 agent and performs a local file copy (cp) to leverage the shared /var/www/html mount point, followed by a simple curl | grep test on the Load Balancer URL.
 
 deploy-job Pipeline Script
-Groovy
 
+```
 pipeline {
     // Pipeline MUST run on the agent with the 'ststor01' label (Storage Server)
     agent { label 'ststor01' } 
@@ -147,24 +161,28 @@ pipeline {
         }
     }
 }
+```
 📈 III. Verification
 After running the pipeline:
 
 Jenkins Result: The build job should show SUCCESS (green).
 
 URL Verification: Accessing http://stlb01:8091 directly showed the required content:
+Command : curl http://stlb01:8091
+Output:
+       Welcome to xFusionCorp Industries
 
-Welcome to xFusionCorp Industries
+This confirms that the website is accessible and serving the correct content through the Load Balancer URL http://stlb01:8091.
 
-```
 This Jenkins script is a **Declarative Pipeline** designed for a highly efficient Continuous Deployment (CD) workflow that leverages a **shared network volume**. The pipeline's logic is optimized to deploy code to multiple App Servers with a single file operation on a centralized **Storage Server**.
 
-Here is an elaborate explanation of each section and how the pipeline achieves the deployment goals.
 
----
+### Following is an elaborate explanation of each section and how the pipeline achieves the deployment goals.
+
+
 
 ## 1. Pipeline Foundation and Environment Setup
-
+```
 The top-level blocks define where and how the entire pipeline will run.
 
 ### `agent { label 'ststor01' }` (Execution Environment)
