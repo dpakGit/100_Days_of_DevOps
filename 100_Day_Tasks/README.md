@@ -25,3 +25,5 @@ Here's a rough outline of where you might find the cloned repository:
 Note that the workspace directory is usually cleaned up or reused between job runs, depending on your Jenkins configuration. If you need to persist the cloned repository or any other files, you might want to consider archiving them as part of the job or copying them to a different location.
 
 The master node only stores the job configuration, build history, and other metadata. The actual workspace and build execution happen on the slave node.
+
+### URL format for Webhook : <Jenkins URL>/buildByToken/build?job=<Job_Name>&token=<Token>
