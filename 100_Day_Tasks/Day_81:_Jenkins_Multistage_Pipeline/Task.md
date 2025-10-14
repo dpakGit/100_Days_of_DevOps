@@ -47,7 +47,7 @@ Explanation :
 
 This document details the configuration and pipeline code used to deploy a static website to Nautilus App Servers via a shared volume on the Storage Server, managed by a two-stage Jenkins pipeline.
 
-**Note:-** The most robust and simplest solution relies entirely on setting up the Storage Server as an agent with the label ststor01, and then performing a local file copy in the pipeline.
+**❗Note:-** The most robust and simplest solution relies entirely on setting up the Storage Server as an agent with the label ststor01, and then performing a local file copy in the pipeline.
 
 🛠️ I. Pre-Deployment Setup (One-Time Steps)
 
