@@ -40,18 +40,22 @@ For these kind of scenarios requiring changes to be done in a web UI, please tak
 
 ### What I Did
 
-#### Jenkins Deployment Pipeline for xFusionCorp Static Website
 
+### Jenkins Deployment Pipeline for xFusionCorp Static Website
+
+Explanation :
 
 This document details the configuration and pipeline code used to deploy a static website to Nautilus App Servers via a shared volume on the Storage Server, managed by a two-stage Jenkins pipeline.
 
 **Note:-** The most robust and simplest solution relies entirely on setting up the Storage Server as an agent with the label ststor01, and then performing a local file copy in the pipeline.
 
 🛠️ I. Pre-Deployment Setup (One-Time Steps)
+
 These actions were performed before creating the Jenkins job.
 
 1. Update Repository Content
-The website content was updated directly on the Storage Server as it holds the local clone of the Git repository under the shared document root (/var/www/html).
+   
+ The website content was updated directly on the Storage Server as it holds the local clone of the Git repository under the shared document root (/var/www/html).
 
 Bash
 ```
@@ -74,12 +78,12 @@ git commit -am "Update welcome message for deployment"
 git push origin master
 ```
 2. Jenkins Credentials Setup
-3. 
+
 The following Username/Password credentials were created in Jenkins:
 
-Purpose         	  Username	  Password	        Recommended ID
-Gitea Access	       sarah	   Sarah_pass123	 sarah
-Storage Server SSH	   natasha	   Bl@kW	         storage_server
+Purpose         	    Username	  Password	         Recommended ID
+Gitea Access	        sarah	     Sarah_pass123	   sarah
+Storage Server SSH	  natasha	  Bl@kW	            storage_server
 
 
 3. Configure Storage Server as Jenkins Agent or node
@@ -110,8 +114,9 @@ Jenkins agents are Java applications and require the java command to be availabl
 The exit code 127 in the logs of launch Agent ,confirms that the shell could not find the executable (java).
 
 
+🚀 II. Jenkins Pipeline Code (c)
 
-4. Jenkins Pipeline Code (deploy-job)
+1. Create Jenkins Job  "🚀 II. Jenkins Pipeline Code (deploy-job)"
 
 A new Pipeline job named deploy-job was created with the following Declarative Pipeline script.
 
@@ -162,13 +167,19 @@ pipeline {
     }
 }
 ```
+Build the job
+
+
 📈 III. Verification
+
 After running the pipeline:
 
 Jenkins Result: The build job should show SUCCESS (green).
 
 URL Verification: Accessing http://stlb01:8091 directly showed the required content:
+
 Command : curl http://stlb01:8091
+
 Output:
        Welcome to xFusionCorp Industries
 
