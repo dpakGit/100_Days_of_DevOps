@@ -10,3 +10,10 @@ https://www.youtube.com/watch?v=Hfg7_y0fGTg
 KodeKloud Studio: https://kodekloud.com/studio/labs?utm_source=community&utm_medium=community&utm_campaign=kksocials_labs&utm_id=kksocials_labs&utm_term=&utm_content=
    
 https://github.com/joseeden/KodeKloud_Engineer_Labs/tree/main
+
+
+Bansikah :
+
+https://github.com/iinsys/devops/tree/master/100-days-of-devops/kodecloud
+
+https://github.com/alfred-jayaprakash/kke-solutions/tree/master
