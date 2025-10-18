@@ -1,3 +1,5 @@
+https://github.com/iinsys/devops/tree/master/100-days-of-devops/kodecloud/Day89
+
 ### Troubleshoot
 
 [18-Oct-25 9:47 AM] Meta AI: The playbook you've created looks mostly correct. Here's a breakdown:
