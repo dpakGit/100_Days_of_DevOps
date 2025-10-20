@@ -23,30 +23,33 @@ Here's a YAML file that defines the ReplicaSet as per the requirements:
 apiVersion: apps/v1
 kind: ReplicaSet
 metadata:
-  name: httpd-replicaset
+  name: nginx-replicaset
+  labels:
+    app: nginx_app
+    type: front-end
 spec:
   replicas: 4
   selector:
     matchLabels:
-      app: httpd_app
+      app: nginx_app
       type: front-end
   template:
     metadata:
       labels:
-        app: httpd_app
+        app: nginx_app
         type: front-end
     spec:
       containers:
-      - name: httpd-container
-        image: httpd:latest
+      - name: nginx-container
+        image: nginx:latest
 ```
 
-You can save this YAML file (e.g., httpd-replicaset.yaml) and apply it to your Kubernetes cluster using the following command:
+You can save this YAML file (e.g., nginx-replicaset.yaml) and apply it to your Kubernetes cluster using the following command:
 
 
 bash
 
-kubectl apply -f httpd-replicaset.yaml
+kubectl apply -f nginx-replicaset.yaml
 
 
 This will create the ReplicaSet with the specified configuration. You can verify the ReplicaSet and its pods using the following commands:
@@ -56,9 +59,7 @@ bash
 
 kubectl get rs
 
-
 kubectl get pods
 
 
-The kubectl get rs command will show you the ReplicaSet, and the kubectl get pods command will show you the pods created by the ReplicaSet. You should see 4 pods running with names starting with httpd-replicaset.
-
+The kubectl get rs command will show you the ReplicaSet, and the kubectl get pods command will show you the pods created by the ReplicaSet. You should see 4 pods running with names starting with nginx-replicaset.
