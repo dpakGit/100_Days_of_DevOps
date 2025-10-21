@@ -319,3 +319,29 @@ Checking logs...
 thor@jumphost ~$ 
 ```
 
+### Pod.yaml
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: webserver
+spec:
+  containers:
+  - name: nginx-container
+    image: nginx:latest
+    volumeMounts:
+    - name: shared-logs
+      mountPath: /var/log/nginx
+  - name: sidecar-container
+    image: ubuntu:latest
+    command: ["stdbuf", "-oL", "sh", "-c", "while true; do echo 'Checking logs...'; cat /var/log/nginx/access.log /var/log/nginx/error.log; sleep 30; done"]
+    volumeMounts:
+    - name: shared-logs
+      mountPath: /var/log/nginx
+  volumes:
+  - name: shared-logs
+    emptyDir: {}
+
+```
+
