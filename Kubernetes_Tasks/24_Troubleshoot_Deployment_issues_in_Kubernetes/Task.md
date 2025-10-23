@@ -225,7 +225,7 @@ kubectl rollout status deployment redis-deployment
 
 
 This will show you the status of the rollout, including any errors or warnings.
-```
+
 
 
 
