@@ -6,7 +6,7 @@ The deployment name is redis-deployment. The pods are not in running state right
 
 ### What I Did
 
-
+```
 thor@jumphost ~$ kubectl get deploy redis-deployment 
 NAME               READY   UP-TO-DATE   AVAILABLE   AGE
 redis-deployment   0/1     1            0           42s
@@ -225,7 +225,7 @@ kubectl rollout status deployment redis-deployment
 
 
 This will show you the status of the rollout, including any errors or warnings.
-
+```
 
 
 
