@@ -193,10 +193,7 @@ Events:
   Normal  Created    2m3s  kubelet            Created container redis-container
   Normal  Started    2m3s  kubelet            Started container redis-container
 
-
-thor@jumphost ~$ kubectl get po
-
-
+```
 
 ### Points to Note :
 
@@ -207,7 +204,9 @@ When you use kubectl edit to make changes to a resource (like a Deployment), the
 After editing the Deployment, Kubernetes will:
 
 1. Create a new ReplicaSet: With the updated configuration.
+
 2. Scale down the old ReplicaSet: Terminating the old Pods.
+
 3. Create new Pods: With the updated configuration.
 
 So, when you run kubectl get po after editing the Deployment, you might see:
@@ -221,6 +220,7 @@ You can use kubectl rollout status to track the progress of the deployment rollo
 
 
 bash
+
 kubectl rollout status deployment redis-deployment
 
 
