@@ -8,7 +8,7 @@ FYI, deployment name is lamp-wp and its using a service named lamp-service. The 
 Also do not try to delete/modify any other existing components like deployment name, service name, types, labels etc.
 
 ### What I Did
-
+```
 thor@jumphost ~$ kubectl get deployments.apps 
 NAME      READY   UP-TO-DATE   AVAILABLE   AGE
 lamp-wp   1/1     1            1           57s
@@ -249,5 +249,6 @@ echo "Connected successfully";
 
 ;/app # exit
 thor@jumphost ~$ 
+```
 
 <img width="1920" height="1080" alt="Screenshot (484)" src="https://github.com/user-attachments/assets/94616958-7134-4f7a-80ea-61644cd059d9" />
