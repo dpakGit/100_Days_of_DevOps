@@ -18,4 +18,4 @@
 
 9. Deploy Iron Gallery App on Kubernetes
 
-10.Fix Python App Deployed on Kubernetes Cluster
+10. Fix Python App Deployed on Kubernetes Cluster
